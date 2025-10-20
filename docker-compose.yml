@@ -1,0 +1,11 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: bt-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: BT_AUTH
+    ports:
+      - "3306:3306"
+volumes:
+  mysql-data:     
