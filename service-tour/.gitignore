@@ -1,0 +1,8 @@
+/target
+/.idea
+/.mvn
+*.iml
+*.log
+*.jar
+.env
+service-auth/

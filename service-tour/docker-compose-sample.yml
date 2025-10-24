@@ -1,0 +1,52 @@
+# This is a sample configuration file.
+# Copy to docker-compose.yml and adjust as needed.
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_booking
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: booking_tour
+      MYSQL_USER: booking_user
+      MYSQL_PASSWORD: booking_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  service-auth:
+    image: service_auth_image_placeholder
+    container_name: service_auth
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/booking_tour?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=booking_user
+      - SPRING_DATASOURCE_PASSWORD=booking_pass
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  service-tour:
+    build:
+      context: ./service-tour
+      dockerfile: Dockerfile
+    container_name: service_tour
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/booking_tour?useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=booking_user
+      - SPRING_DATASOURCE_PASSWORD=booking_pass
+      - SERVER_PORT=8081
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+      - service-auth
+
+volumes:
+  mysql_data:
