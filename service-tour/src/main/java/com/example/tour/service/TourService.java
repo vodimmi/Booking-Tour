@@ -9,9 +9,11 @@ import com.example.tour.entity.TourCategory;
 import com.example.tour.repository.LocationRepository;
 import com.example.tour.repository.TourCategoryRepository;
 import com.example.tour.repository.TourRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,28 +48,53 @@ public class TourService {
         Location location = locationRepository.findById(dto.getLocationId())
                 .orElseThrow(() -> new IllegalArgumentException("Location not found: " + dto.getLocationId()));
 
-        Tour t = new Tour();
-        t.setName(dto.getName());
-        t.setDescription(dto.getDescription());
-        t.setCategory(category);
-        t.setLocation(location);
-        t.setDurationDays(dto.getDurationDays());
-        t.setMaxPeople(dto.getMaxPeople());
-        t.setAvailableSlots(dto.getAvailableSlots());
-        Tour saved = tourRepository.save(t);
-        return toDto(saved);
+        Tour t = Tour.builder()
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .price(dto.getPrice())
+                .image(dto.getImage())
+                .rating(dto.getRating())
+                .reviewCount(dto.getReviewCount())
+                .startDate(dto.getStartDate())
+                .endDate(dto.getEndDate())
+                .durationDays(dto.getDurationDays())
+                .maxPeople(dto.getMaxPeople())
+                .availableSlots(dto.getAvailableSlots())
+                .category(category)
+                .location(location)
+                .build();
+
+        return toDto(tourRepository.save(t));
     }
 
     @Transactional
     public Optional<TourResponseDto> update(Long id, TourUpdateDto dto) {
         return tourRepository.findById(id).map(existing -> {
-            existing.setName(dto.getName());
-            existing.setDescription(dto.getDescription());
-            existing.setDurationDays(dto.getDurationDays());
-            existing.setMaxPeople(dto.getMaxPeople());
-            existing.setAvailableSlots(dto.getAvailableSlots());
-            Tour updated = tourRepository.save(existing);
-            return toDto(updated);
+            if (dto.getName() != null) existing.setName(dto.getName());
+            if (dto.getDescription() != null) existing.setDescription(dto.getDescription());
+            if (dto.getPrice() != null) existing.setPrice(dto.getPrice());
+            if (dto.getImage() != null) existing.setImage(dto.getImage());
+            if (dto.getRating() != null) existing.setRating(dto.getRating());
+            if (dto.getReviewCount() != null) existing.setReviewCount(dto.getReviewCount());
+            if (dto.getStartDate() != null) existing.setStartDate(dto.getStartDate());
+            if (dto.getEndDate() != null) existing.setEndDate(dto.getEndDate());
+            if (dto.getDurationDays() != null) existing.setDurationDays(dto.getDurationDays());
+            if (dto.getMaxPeople() != null) existing.setMaxPeople(dto.getMaxPeople());
+            if (dto.getAvailableSlots() != null) existing.setAvailableSlots(dto.getAvailableSlots());
+
+            if (dto.getCategoryId() != null) {
+                TourCategory category = categoryRepository.findById(dto.getCategoryId())
+                        .orElseThrow(() -> new IllegalArgumentException("Category not found: " + dto.getCategoryId()));
+                existing.setCategory(category);
+            }
+
+            if (dto.getLocationId() != null) {
+                Location location = locationRepository.findById(dto.getLocationId())
+                        .orElseThrow(() -> new IllegalArgumentException("Location not found: " + dto.getLocationId()));
+                existing.setLocation(location);
+            }
+
+            return toDto(tourRepository.save(existing));
         });
     }
 
@@ -77,21 +104,32 @@ public class TourService {
 
     private TourResponseDto toDto(Tour t) {
         TourResponseDto r = new TourResponseDto();
-        r.setTourId(t.getTourId());
+        r.setId(t.getTourId());
         r.setName(t.getName());
         r.setDescription(t.getDescription());
-        if (t.getCategory() != null) {
-            r.setCategoryId(t.getCategory().getCategoryId());
-            r.setCategoryName(t.getCategory().getName());
-        }
-        if (t.getLocation() != null) {
-            r.setLocationId(t.getLocation().getLocationId());
-            r.setLocationName(t.getLocation().getName());
-        }
-        r.setDurationDays(t.getDurationDays());
-        r.setMaxPeople(t.getMaxPeople());
-        r.setAvailableSlots(t.getAvailableSlots());
-        r.setStatus(t.getStatus() != null ? t.getStatus().name() : null);
+        r.setPrice(t.getPrice());
+        r.setDuration(t.getDurationDays());
+        r.setCategory(t.getCategory() != null ? t.getCategory().getName() : null);
+        r.setImage(t.getImage());
+        r.setRating(t.getRating());
+        r.setReviews(t.getReviewCount());
+        r.setLocation(t.getLocation() != null ? t.getLocation().getName() : null);
+        r.setStartDate(t.getStartDate());
+        r.setEndDate(t.getEndDate());
+        r.setMaxParticipants(t.getMaxPeople());
+        r.setCurrentParticipants(t.getAvailableSlots());
         return r;
     }
+
+    public List<TourResponseDto> findByCategory(Long categoryId, int page, int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Tour> tourPage = tourRepository.findByCategory_CategoryId(categoryId, pageable);
+        return tourPage.getContent().stream().map(this::toDto).collect(Collectors.toList());
+    }
+
+    public List<TourResponseDto> searchTours(String keyword) {
+        List<Tour> tours = tourRepository.searchTours(keyword);
+        return tours.stream().map(this::toDto).collect(Collectors.toList());
+    }
+
 }

@@ -1,18 +1,22 @@
 package com.example.tour.dto;
 
 import lombok.Data;
+import java.time.LocalDate;
 
 @Data
 public class TourResponseDto {
-    private Long tourId;
+    private Long id;
     private String name;
     private String description;
-    private Long categoryId;
-    private String categoryName;
-    private Long locationId;
-    private String locationName;
-    private Integer durationDays;
-    private Integer maxPeople;
-    private Integer availableSlots;
-    private String status;
+    private Double price;
+    private Integer duration;
+    private String category;
+    private String image;
+    private Double rating;
+    private Integer reviews;
+    private String location;
+    private LocalDate startDate;
+    private LocalDate endDate;
+    private Integer maxParticipants;
+    private Integer currentParticipants;
 }

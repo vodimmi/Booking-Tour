@@ -41,6 +41,8 @@ services:
       SERVER_PORT: 8081
     ports:
       - "8081:8081"
+    volumes:
+      - ./uploads:/app/uploads
     networks:
       - booking-tour-net
 
