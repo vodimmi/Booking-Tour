@@ -26,7 +26,16 @@ public class TourController {
         return ResponseEntity.ok(tourService.findAll());
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/search")
+    public ResponseEntity<List<TourResponseDto>> searchTours(@RequestParam("q") String keyword) {
+        List<TourResponseDto> results = tourService.searchTours(keyword);
+        if (results.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(results);
+    }
+
+    @GetMapping("/{id:[0-9]+}")
     public ResponseEntity<TourResponseDto> getOne(@PathVariable Long id) {
         return tourService.findById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
@@ -34,7 +43,7 @@ public class TourController {
     @PostMapping
     public ResponseEntity<TourResponseDto> create(@Valid @RequestBody TourCreateDto dto) {
         TourResponseDto created = tourService.create(dto);
-        return ResponseEntity.created(URI.create("/api/tours/" + created.getTourId())).body(created);
+        return ResponseEntity.created(URI.create("/api/tours/" + created.getId())).body(created);
     }
 
     @PutMapping("/{id}")
@@ -47,4 +56,18 @@ public class TourController {
         tourService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<TourResponseDto>> getByCategory(
+            @PathVariable Long categoryId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        List<TourResponseDto> tours = tourService.findByCategory(categoryId, page, limit);
+        if (tours.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(tours);
+    }
+
 }

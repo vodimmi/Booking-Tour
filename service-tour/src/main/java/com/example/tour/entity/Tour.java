@@ -2,7 +2,7 @@ package com.example.tour.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Tour {
 
     @Id
@@ -23,13 +24,16 @@ public class Tour {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private TourCategory category;
+    private Double price; // 💰 Giá tour
 
-    @ManyToOne
-    @JoinColumn(name = "location_id")
-    private Location location;
+    private String image; // 🖼️ Ảnh đại diện
+
+    private Double rating = 0.0; // ⭐ Đánh giá trung bình
+
+    private Integer reviewCount = 0; // 💬 Số lượng đánh giá
+
+    private LocalDate startDate; // 📅 Ngày bắt đầu tour
+    private LocalDate endDate;   // 📅 Ngày kết thúc tour
 
     private Integer durationDays = 1;
     private Integer maxPeople = 20;
@@ -37,6 +41,14 @@ public class Tour {
 
     @Enumerated(EnumType.STRING)
     private Status status = Status.DRAFT;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private TourCategory category;
+
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

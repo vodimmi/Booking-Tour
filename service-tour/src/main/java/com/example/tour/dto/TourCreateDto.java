@@ -3,6 +3,8 @@ package com.example.tour.dto;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Data
 public class TourCreateDto {
 
@@ -12,6 +14,15 @@ public class TourCreateDto {
 
     @Size(max = 2000)
     private String description;
+
+    @NotNull
+    private Double price;
+
+    private String image;
+    private Double rating = 0.0;
+    private Integer reviewCount = 0;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @NotNull
     private Long categoryId;

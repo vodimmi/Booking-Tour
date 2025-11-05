@@ -1,11 +1,74 @@
+#services:
+#  mysql:
+#    image: mysql:8
+#    container_name: bt-mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
+#      MYSQL_DATABASE: BT_AUTH
+#    ports:
+#      - "3306:3306"
+#volumes:
+#  mysql-data:
+
+version: '3.9'
+
 services:
   mysql:
     image: mysql:8
     container_name: bt-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: BT_AUTH
+      MYSQL_DATABASE: BT_TOUR
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - booking-tour-net
+
+  service-tour:
+    build: ./service-tour
+    container_name: bt-service-tour
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - booking-tour-net
+
+  # ---------------------------------------------------------
+  # service-auth (tạm thời không chạy, bạn có thể bật lại sau)
+  # ---------------------------------------------------------
+  # service-auth:
+  #   build: ./service-auth
+  #   container_name: bt-service-auth
+  #   restart: always
+  #   depends_on:
+  #     - mysql
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  #     SPRING_DATASOURCE_USERNAME: root
+  #     SPRING_DATASOURCE_PASSWORD: root
+  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  #     SERVER_PORT: 8080
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - booking-tour-net
+  # ---------------------------------------------------------
+
 volumes:
   mysql-data:
+
+networks:
+  booking-tour-net:
