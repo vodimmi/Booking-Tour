@@ -14,8 +14,8 @@ com/example/auth/dto/AuthResponse.class
 com/example/auth/entity/Role.class
 com/example/auth/dto/RegisterRequest.class
 com/example/auth/service/AuthService.class
-com/example/auth/security/KeyProvider.class
 com/example/auth/controller/AuthController.class
+com/example/auth/security/KeyProvider.class
 com/example/auth/entity/RefreshToken.class
 com/example/auth/controller/JwksController.class
 com/example/auth/config/PasswordConfig.class
