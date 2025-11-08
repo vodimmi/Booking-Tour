@@ -1,15 +1,3 @@
-#services:
-#  mysql:
-#    image: mysql:8
-#    container_name: bt-mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_DATABASE: BT_AUTH
-#    ports:
-#      - "3306:3306"
-#volumes:
-#  mysql-data:
-
 version: '3.9'
 
 services:
@@ -18,11 +6,37 @@ services:
     container_name: bt-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: BT_TOUR
+      MYSQL_DATABASE: BT_AUTH
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+07:00'
     ports:
       - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - booking-tour-net
+
+  service-auth:
+    build:
+      context: .
+      dockerfile: ./service-auth/Dockerfile
+    container_name: bt-service-auth
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SERVER_PORT: 6060
+    ports:
+      - "6060:6060"
     networks:
       - booking-tour-net
 
@@ -31,9 +45,10 @@ services:
     container_name: bt-service-tour
     restart: always
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=UTC
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
@@ -45,27 +60,6 @@ services:
       - ./uploads:/app/uploads
     networks:
       - booking-tour-net
-
-  # ---------------------------------------------------------
-  # service-auth (tạm thời không chạy, bạn có thể bật lại sau)
-  # ---------------------------------------------------------
-  # service-auth:
-  #   build: ./service-auth
-  #   container_name: bt-service-auth
-  #   restart: always
-  #   depends_on:
-  #     - mysql
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-  #     SPRING_DATASOURCE_USERNAME: root
-  #     SPRING_DATASOURCE_PASSWORD: root
-  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
-  #     SERVER_PORT: 8080
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - booking-tour-net
-  # ---------------------------------------------------------
 
 volumes:
   mysql-data:
