@@ -8,11 +8,11 @@ COPY service-auth ./service-auth
 COPY service-tour ./service-tour
 COPY service-booking ./service-booking
 # Build the application
-RUN mvn -B -DskipTests clean package -pl service-tour -am
+RUN mvn -B -DskipTests clean package -pl service-auth -am
 
 # Run stage
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
-COPY --from=builder /workspace/service-tour/target/service-tour-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 8081
+COPY --from=builder /workspace/service-auth/target/service-auth-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 6060
 ENTRYPOINT ["java","-jar","/app/app.jar"]

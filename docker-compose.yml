@@ -1,74 +1,83 @@
-#services:
-#  mysql:
-#    image: mysql:8
-#    container_name: bt-mysql
-#    environment:
-#      MYSQL_ROOT_PASSWORD: root
-#      MYSQL_DATABASE: BT_AUTH
-#    ports:
-#      - "3306:3306"
-#volumes:
-#  mysql-data:
-
-version: '3.9'
+version: '3.8'
 
 services:
   mysql:
-    image: mysql:8
+    image: mysql:8.0
     container_name: bt-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: BT_TOUR
     ports:
-      - "3307:3306"
+      - "3306:3306"
     volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - booking-tour-net
+      - ./mysql-init:/docker-entrypoint-initdb.d  # contains init.sql
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  service-tour:
-    build: ./service-tour
-    container_name: bt-service-tour
-    restart: always
-    depends_on:
-      - mysql
+  service-auth:
+    build:
+      context: .
+      dockerfile: service-auth/Dockerfile
+    container_name: bt-service-auth
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+      SERVER_PORT: 6060
+    ports:
+      - "6060:6060"
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+  service-tour:
+    build:
+      context: .
+      dockerfile: service-tour/Dockerfile
+    container_name: bt-service-tour
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+      SPRING_FLYWAY_ENABLED: "true"
+      SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8081
     ports:
       - "8081:8081"
     volumes:
       - ./uploads:/app/uploads
-    networks:
-      - booking-tour-net
+    depends_on:
+      mysql:
+        condition: service_healthy
 
-  # ---------------------------------------------------------
-  # service-auth (tạm thời không chạy, bạn có thể bật lại sau)
-  # ---------------------------------------------------------
-  # service-auth:
-  #   build: ./service-auth
-  #   container_name: bt-service-auth
-  #   restart: always
-  #   depends_on:
-  #     - mysql
+  # service-booking:
+  #   build:
+  #     context: .
+  #     dockerfile: service-booking/Dockerfile
+  #   container_name: bt-service-booking
   #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  #     SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_BOOKING?allowPublicKeyRetrieval=true&useSSL=false
   #     SPRING_DATASOURCE_USERNAME: root
   #     SPRING_DATASOURCE_PASSWORD: root
-  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
-  #     SERVER_PORT: 8080
+  #     SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+  #     SPRING_FLYWAY_ENABLED: "true"
+  #     SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
+  #     SPRING_FLYWAY_LOCATIONS: classpath:db/migration  # contains V1__init_booking.sql
+  #     SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+  #     SERVER_PORT: 8082
   #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - booking-tour-net
-  # ---------------------------------------------------------
-
-volumes:
-  mysql-data:
-
-networks:
-  booking-tour-net:
+  #     - "8082:8082"
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
