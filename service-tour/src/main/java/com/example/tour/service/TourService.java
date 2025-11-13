@@ -33,8 +33,14 @@ public class TourService {
         this.locationRepository = locationRepository;
     }
 
-    public List<TourResponseDto> findAll() {
-        return tourRepository.findAll().stream().map(this::toDto).collect(Collectors.toList());
+    // Phân trang cho findAll
+    public List<TourResponseDto> findAll(int page, int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        return tourRepository.findAllActive(pageable)
+                .getContent()
+                .stream()
+                .map(this::toDto)
+                .collect(Collectors.toList());
     }
 
     public Optional<TourResponseDto> findById(Long id) {
@@ -62,6 +68,7 @@ public class TourService {
                 .availableSlots(dto.getAvailableSlots())
                 .category(category)
                 .location(location)
+                .status(Tour.Status.DRAFT)
                 .build();
 
         return toDto(tourRepository.save(t));
@@ -99,7 +106,11 @@ public class TourService {
     }
 
     public void delete(Long id) {
-        tourRepository.deleteById(id);
+        Tour tour = tourRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Tour không tồn tại"));
+
+        tour.setStatus(Tour.Status.INACTIVE); // Chuyển trạng thái
+        tourRepository.save(tour);
     }
 
     private TourResponseDto toDto(Tour t) {
@@ -123,13 +134,13 @@ public class TourService {
 
     public List<TourResponseDto> findByCategory(Long categoryId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<Tour> tourPage = tourRepository.findByCategory_CategoryId(categoryId, pageable);
+        Page<Tour> tourPage = tourRepository.findActiveByCategory(categoryId, pageable);
         return tourPage.getContent().stream().map(this::toDto).collect(Collectors.toList());
     }
 
-    public List<TourResponseDto> searchTours(String keyword) {
-        List<Tour> tours = tourRepository.searchTours(keyword);
-        return tours.stream().map(this::toDto).collect(Collectors.toList());
+    public List<TourResponseDto> searchTours(String keyword, int page, int limit) {
+        Pageable pageable = PageRequest.of(page - 1, limit);
+        Page<Tour> tourPage = tourRepository.searchActiveToursPaged(keyword, pageable);
+        return tourPage.getContent().stream().map(this::toDto).collect(Collectors.toList());
     }
-
 }

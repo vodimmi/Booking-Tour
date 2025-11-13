@@ -20,4 +20,12 @@ public class TourCategory {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.ACTIVE;
+
+    public enum Status {
+        ACTIVE, INACTIVE
+    }
 }

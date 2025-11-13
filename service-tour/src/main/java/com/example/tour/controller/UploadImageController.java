@@ -22,12 +22,26 @@ public class UploadImageController {
     @PostMapping("/image")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {
-            Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            if (file.isEmpty() || file.getOriginalFilename() == null) {
+                return ResponseEntity.badRequest().body("File is empty or filename is invalid");
+            }
+
+            System.out.println("Uploading file: " + file.getOriginalFilename());
+
+            Path uploadPath = Paths.get(UPLOAD_DIR);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+
+            Path filePath = uploadPath.resolve(Paths.get(file.getOriginalFilename()).getFileName());
+            Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
             return ResponseEntity.ok("/uploads/" + file.getOriginalFilename());
         } catch (IOException e) {
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Upload failed: " + e.getMessage());
         }
     }
+
 }
