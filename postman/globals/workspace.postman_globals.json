@@ -1,0 +1,16 @@
+{
+  "id": "de48e82a-c313-4da9-9e04-3f91efff1892",
+  "name": "Globals",
+  "values": [
+    {
+      "key": "booking-url",
+      "value": "",
+      "enabled": true,
+      "type": "default",
+      "description": ""
+    }
+  ],
+  "_postman_variable_scope": "globals",
+  "_postman_exported_at": "2025-11-23T11:52:38.919Z",
+  "_postman_exported_using": "Postman/11.0.0"
+}

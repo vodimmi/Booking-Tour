@@ -1,0 +1,293 @@
+{
+  "info": {
+    "_postman_id": "464cd3eb-a56b-4a90-b2ee-12f746cff050",
+    "name": "Booking Tour - Booking Service API",
+    "description": "Collection for booking-related endpoints (service-booking). Import into Postman or Hoppscotch.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "List all bookings",
+          "id": "af688b9f-e2e6-4507-83bc-0bcd73c456ba",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get booking by id",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "id": "934b3c59-3570-4dc7-81b0-96a2e4766794",
+                "exec": [
+                  "// Replace :id with a real id or set the variable 'bookingId' and use {{bookingId}} in the URL"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "id": "6bf208fb-b1da-40bd-9612-d983783ad5e3",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/1",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create booking",
+          "id": "87f64b26-f23c-443c-b11c-3dada252d00f",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"tourId\": 1,\n    \"userId\": 1,\n    \"numberOfPeople\": 2,\n    \"totalPrice\": 1000.00,\n    \"bookingDate\": \"2025-11-24T09:00:00\",\n    \"specialRequirements\": \"Test new\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{booking-url}}/api/bookings",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirm booking",
+          "id": "c3430039-2cbc-4293-b644-14c811440596",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/7/confirm",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "7",
+                "confirm"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject booking",
+          "id": "ec116be1-02c4-4fb5-8b19-95b63a97ec6e",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/7/reject?reason=No longer needed",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "7",
+                "reject"
+              ],
+              "query": [
+                {
+                  "key": "reason",
+                  "value": "No longer needed"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "id": "d3d1843c-fec2-49aa-a74a-c0f1dc0917f7",
+      "description": "CRUD-like operations for bookings (create, list, get, confirm, reject)"
+    },
+    {
+      "name": "Tours",
+      "item": [
+        {
+          "name": "Get tour",
+          "id": "4461279a-05e8-4a94-ae52-9c5a2d8318f7",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/tours",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "tours"
+              ]
+            }
+          }
+        },
+        {
+          "name": "add tour",
+          "id": "92d497e8-33ad-4fcb-b498-a109db365578",
+          "request": {
+            "method": "POST",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Sapa Adventure\",\r\n  \"description\": \"A trip to Sapa mountain\",\r\n  \"price\": 250.0,\r\n  \"image\": \"https://example.com/sapa.jpg\",\r\n  \"rating\": 4.8,\r\n  \"reviewCount\": 120,\r\n  \"startDate\": \"2025-11-01\",\r\n  \"endDate\": \"2025-11-05\",\r\n  \"durationDays\": 5,\r\n  \"maxPeople\": 20,\r\n  \"availableSlots\": 5,\r\n  \"categoryId\": 1,\r\n  \"locationId\": 1\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/tours",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "tours"
+              ]
+            }
+          }
+        },
+        {
+          "name": "update tour",
+          "id": "5137110a-f106-4c71-96cb-eb38021128d0",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Da Nang Beach Getaway - Updated\",\r\n  \"description\": \"Updated description for Da Nang trip.\",\r\n  \"durationDays\": 5,\r\n  \"maxPeople\": 30,\r\n  \"availableSlots\": 25,\r\n  \"status\": \"ACTIVE\",\r\n  \"locationId\": 1,\r\n  \"categoryId\": 1\r\n}\r\n"
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/tours/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "tours",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "delete tour",
+          "id": "c254af2b-681c-4c63-8f76-33ec87e95cb9",
+          "request": {
+            "method": "DELETE",
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"Da Nang Beach Getaway - Updated\",\r\n  \"description\": \"Updated description for Da Nang trip.\",\r\n  \"durationDays\": 5,\r\n  \"maxPeople\": 30,\r\n  \"availableSlots\": 25,\r\n  \"status\": \"ACTIVE\",\r\n  \"locationId\": 1,\r\n  \"categoryId\": 1\r\n}\r\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8081/api/tours/3",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "tours",
+                "3"
+              ]
+            }
+          }
+        },
+        {
+          "name": "http://localhost:8081/api/tours/search?q=ha%20long",
+          "id": "711188ec-84c8-47cb-9221-476e0b053614",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8081/api/tours/search?q=ha%20long",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8081",
+              "path": [
+                "api",
+                "tours",
+                "search"
+              ],
+              "query": [
+                {
+                  "key": "q",
+                  "value": "ha%20long"
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "id": "c780a3e2-b898-4d4c-a8a6-cc671388766c"
+    }
+  ],
+  "variable": [
+    {
+      "id": "f1233634-75f8-4acc-a25e-0d65e7091e3a",
+      "key": "booking-url",
+      "value": "http://localhost:8082",
+      "type": "string"
+    },
+    {
+      "id": "92775f27-2a8d-45b3-991b-b9a3861f2584",
+      "key": "booking-url",
+      "value": "",
+      "type": "default"
+    }
+  ]
+}

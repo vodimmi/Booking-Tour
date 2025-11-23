@@ -33,7 +33,7 @@ public class BookingController {
     @PostMapping("/{id}/reject")
     public ResponseEntity<Void> rejectBooking(
             @PathVariable("id") Long id,
-            @RequestParam(required = true) String reason) {
+            @RequestParam(value = "reason", required = true) String reason) {
         commandService.handleRejectBooking(id, reason);
         return ResponseEntity.ok().build();
     }
