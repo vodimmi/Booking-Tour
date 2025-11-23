@@ -35,10 +35,6 @@ CREATE TABLE refresh_tokens (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Insert default roles
-INSERT INTO roles (name) VALUES ('USER');
-INSERT INTO roles (name) VALUES ('ADMIN');
-
 -- Create indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(token);

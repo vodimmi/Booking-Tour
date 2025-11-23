@@ -12,8 +12,8 @@ import java.util.List;
 
 @Repository
 public interface TourRepository extends JpaRepository<Tour, Long> {
-    Page<Tour> findByCategory_CategoryId(Long categoryId, Pageable pageable);
-    List<Tour> findByCategory_CategoryId(Long categoryId);
+    Page<Tour> findByCategory_Id(Long categoryId, Pageable pageable);
+    List<Tour> findByCategory_Id(Long categoryId);
 
     @Query("SELECT t FROM Tour t WHERE LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")

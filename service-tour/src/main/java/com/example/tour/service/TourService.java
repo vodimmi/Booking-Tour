@@ -104,7 +104,7 @@ public class TourService {
 
     private TourResponseDto toDto(Tour t) {
         TourResponseDto r = new TourResponseDto();
-        r.setId(t.getTourId());
+        r.setId(t.getId());
         r.setName(t.getName());
         r.setDescription(t.getDescription());
         r.setPrice(t.getPrice());
@@ -123,7 +123,7 @@ public class TourService {
 
     public List<TourResponseDto> findByCategory(Long categoryId, int page, int limit) {
         Pageable pageable = PageRequest.of(page - 1, limit);
-        Page<Tour> tourPage = tourRepository.findByCategory_CategoryId(categoryId, pageable);
+        Page<Tour> tourPage = tourRepository.findByCategory_Id(categoryId, pageable);
         return tourPage.getContent().stream().map(this::toDto).collect(Collectors.toList());
     }
 

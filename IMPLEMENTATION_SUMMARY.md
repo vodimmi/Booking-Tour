@@ -96,8 +96,8 @@ service-auth/
 
 1. **Database Setup**: Ensure MySQL is running with the configured database
 2. **Start Service**: `mvn spring-boot:run -pl service-auth`
-3. **API Documentation**: Access Swagger UI at `http://localhost:6060/swagger-ui/index.html`
-4. **Health Check**: Verify at `http://localhost:6060/actuator/health`
+3. **API Documentation**: Access Swagger UI at `http://localhost:8080/swagger-ui/index.html`
+4. **Health Check**: Verify at `http://localhost:8080/actuator/health`
 
 ### Testing the APIs:
 

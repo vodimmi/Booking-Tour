@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "location")
+@Table(name = "locations")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -13,7 +13,7 @@ public class Location {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long locationId;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

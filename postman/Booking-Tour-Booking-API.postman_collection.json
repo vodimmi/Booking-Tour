@@ -1,0 +1,144 @@
+{
+  "info": {
+    "name": "Booking Tour - Booking Service API",
+    "_postman_id": "f2b8c7d2-0000-4000-9000-000000000001",
+    "description": "Collection for booking-related endpoints (service-booking). Import into Postman or Hoppscotch.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "booking-url",
+      "value": "http://localhost:8082",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Bookings",
+      "description": "CRUD-like operations for bookings (create, list, get, confirm, reject)",
+      "item": [
+        {
+          "name": "List all bookings",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{booking-url}}/api/bookings",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get booking by id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/:id",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                ":id"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "// Replace :id with a real id or set the variable 'bookingId' and use {{bookingId}} in the URL"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tourId\": 1,\n  \"userId\": 2,\n  \"numberOfPeople\": 2,\n  \"totalPrice\": 5000000,\n  \"bookingDate\": \"2025-11-24T09:00:00\",\n  \"specialRequirements\": \"None\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{booking-url}}/api/bookings",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Confirm booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/:id/confirm",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                ":id",
+                "confirm"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject booking",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/:id/reject?reason=SomeReason",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                ":id",
+                "reject"
+              ],
+              "query": [
+                {
+                  "key": "reason",
+                  "value": "SomeReason"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

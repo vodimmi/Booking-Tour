@@ -14,5 +14,5 @@ RUN mvn -B -DskipTests clean package -pl service-auth -am
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 COPY --from=builder /workspace/service-auth/target/service-auth-0.0.1-SNAPSHOT.jar app.jar
-EXPOSE 6060
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
