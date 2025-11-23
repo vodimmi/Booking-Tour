@@ -2,14 +2,12 @@ package com.example.booking.application.mapper;
 
 import com.example.booking.application.dto.BookingResponse;
 import com.example.booking.domain.model.Booking;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-11-23T17:59:25+0700",
+    date = "2025-11-23T19:26:30+0700",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
 )
 @Component
@@ -21,30 +19,19 @@ public class BookingResponseMapperImpl implements BookingResponseMapper {
             return null;
         }
 
-        Long id = null;
-        Long userId = null;
-        Long tourId = null;
-        Integer numberOfPeople = null;
-        BigDecimal totalPrice = null;
-        LocalDateTime bookingDate = null;
-        String status = null;
-        String rejectionReason = null;
-        LocalDateTime createdAt = null;
-        LocalDateTime updatedAt = null;
+        BookingResponse.BookingResponseBuilder bookingResponse = BookingResponse.builder();
 
-        id = booking.getId();
-        userId = booking.getUserId();
-        tourId = booking.getTourId();
-        numberOfPeople = booking.getNumberOfPeople();
-        totalPrice = booking.getTotalPrice();
-        bookingDate = booking.getBookingDate();
-        status = booking.getStatus();
-        rejectionReason = booking.getRejectionReason();
-        createdAt = booking.getCreatedAt();
-        updatedAt = booking.getUpdatedAt();
+        bookingResponse.bookingDate( booking.getBookingDate() );
+        bookingResponse.createdAt( booking.getCreatedAt() );
+        bookingResponse.id( booking.getId() );
+        bookingResponse.numberOfPeople( booking.getNumberOfPeople() );
+        bookingResponse.rejectionReason( booking.getRejectionReason() );
+        bookingResponse.status( booking.getStatus() );
+        bookingResponse.totalPrice( booking.getTotalPrice() );
+        bookingResponse.tourId( booking.getTourId() );
+        bookingResponse.updatedAt( booking.getUpdatedAt() );
+        bookingResponse.userId( booking.getUserId() );
 
-        BookingResponse bookingResponse = new BookingResponse( id, userId, tourId, numberOfPeople, totalPrice, bookingDate, status, rejectionReason, createdAt, updatedAt );
-
-        return bookingResponse;
+        return bookingResponse.build();
     }
 }

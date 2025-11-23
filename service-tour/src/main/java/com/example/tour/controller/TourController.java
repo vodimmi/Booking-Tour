@@ -22,16 +22,24 @@ public class TourController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TourResponseDto>> getAll() {
-        return ResponseEntity.ok(tourService.findAll());
+    public ResponseEntity<List<TourResponseDto>> getAll(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        List<TourResponseDto> tours = tourService.findAll(page, limit);
+        if (tours.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(tours);
     }
 
+
     @GetMapping("/search")
-    public ResponseEntity<List<TourResponseDto>> searchTours(@RequestParam("q") String keyword) {
-        List<TourResponseDto> results = tourService.searchTours(keyword);
-        if (results.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
+    public ResponseEntity<List<TourResponseDto>> searchTours(
+            @RequestParam("q") String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        List<TourResponseDto> results = tourService.searchTours(keyword, page, limit);
+        if (results.isEmpty()) return ResponseEntity.noContent().build();
         return ResponseEntity.ok(results);
     }
 

@@ -6,11 +6,13 @@ services:
     container_name: bt-mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: BT_AUTH
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+07:00'
     ports:
       - "3306:3306"
     volumes:
       - ./mysql-init:/docker-entrypoint-initdb.d  # contains init.sql
-    command: --default-authentication-plugin=mysql_native_password
+    # command: --default-authentication-plugin=mysql_native_password
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -43,6 +45,7 @@ services:
       context: .
       dockerfile: service-tour/Dockerfile
     container_name: bt-service-tour
+    restart: always
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
