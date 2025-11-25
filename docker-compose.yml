@@ -1,3 +1,5 @@
+version: '3.9'
+
 services:
   mysql:
     image: mysql:8
@@ -5,7 +7,62 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: BT_AUTH
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+07:00'
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - booking-tour-net
+
+  service-auth:
+    build:
+      context: .
+      dockerfile: ./service-auth/Dockerfile
+    container_name: bt-service-auth
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SERVER_PORT: 6060
+    ports:
+      - "6060:6060"
+    networks:
+      - booking-tour-net
+
+  service-tour:
+    build: ./service-tour
+    container_name: bt-service-tour
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+      SERVER_PORT: 8081
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./uploads:/app/uploads
+    networks:
+      - booking-tour-net
+
 volumes:
-  mysql-data:     
+  mysql-data:
+
+networks:
+  booking-tour-net:
