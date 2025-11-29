@@ -30,3 +30,14 @@ BEGIN
     SET NEW.updated_at = CURRENT_TIMESTAMP;
 END//
 DELIMITER ;
+
+USE BT_BOOKING; 
+
+INSERT INTO bookings (user_id, tour_id, number_of_people, total_price, booking_date, status, rejection_reason, created_at) 
+VALUES (2,100,2,150.00,'2025-12-05 09:00:00','PENDING',NULL,NOW()), (11,101,4,600.00,'2025-12-10 14:00:00','CONFIRMED',NULL,NOW()), 
+       (2,102,1,50.00,'2025-12-01 08:00:00','REJECTED','Overbooked',NOW()), 
+       (2,103,3,300.00,'2025-12-15 10:00:00','CANCELLED',NULL,NOW()), (14,104,5,1250.00,'2026-01-05 12:00:00','PENDING',NULL,NOW()); 
+SELECT id, user_id, tour_id, number_of_people, total_price, booking_date, status, rejection_reason, created_at 
+FROM bookings 
+ORDER BY id 
+DESC LIMIT 10;

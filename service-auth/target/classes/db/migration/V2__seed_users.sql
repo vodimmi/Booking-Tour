@@ -1,5 +1,4 @@
 -- Seed initial users and assign roles (idempotent)
-USE BT_AUTH;
 
 -- insert users (skip if email exists)
 INSERT INTO users (email, password_hash, full_name, is_active)
@@ -18,9 +17,3 @@ AND NOT EXISTS (SELECT 1 FROM user_roles ur WHERE ur.user_id = u.id AND ur.role_
 INSERT INTO user_roles (user_id, role_id)
 SELECT u.id, r.id FROM users u JOIN roles r ON r.name='USER' WHERE u.email='user@example.com'
 AND NOT EXISTS (SELECT 1 FROM user_roles ur WHERE ur.user_id = u.id AND ur.role_id = r.id);
-
--- Ensure indexes exist (no-op if already present)
-CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
-CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
-CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user_id ON refresh_tokens(user_id);
-CREATE INDEX IF NOT EXISTS idx_refresh_tokens_expires_at ON refresh_tokens(expires_at);

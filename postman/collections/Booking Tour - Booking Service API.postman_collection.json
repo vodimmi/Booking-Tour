@@ -278,13 +278,13 @@
   ],
   "variable": [
     {
-      "id": "f1233634-75f8-4acc-a25e-0d65e7091e3a",
+      "id": "2601f767-6c20-4322-9344-e57082af2411",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "92775f27-2a8d-45b3-991b-b9a3861f2584",
+      "id": "6c011cdc-8eb1-4c66-9814-a1ee68ad5c04",
       "key": "booking-url",
       "value": "",
       "type": "default"
