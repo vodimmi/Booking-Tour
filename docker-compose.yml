@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: BT_AUTH
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+07:00'
     ports:
-      - "3307:3307"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql                 # <- named volume for persistence
       - ./mysql-init:/docker-entrypoint-initdb.d:ro  # contains init.sql (read-only)
@@ -26,7 +26,7 @@ services:
       dockerfile: service-auth/Dockerfile
     container_name: bt-service-auth
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3307/BT_AUTH?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
@@ -47,7 +47,7 @@ services:
     container_name: bt-service-tour
     restart: always
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3307/BT_TOUR?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
@@ -70,7 +70,7 @@ services:
       dockerfile: service-booking/Dockerfile
     container_name: bt-service-booking
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3307/BT_BOOKING?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_BOOKING?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
