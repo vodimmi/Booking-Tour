@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: BT_AUTH
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci --default-time-zone='+07:00'
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql-data:/var/lib/mysql                 # <- named volume for persistence
       - ./mysql-init:/docker-entrypoint-initdb.d:ro  # contains init.sql (read-only)
@@ -34,9 +34,9 @@ services:
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
       SPRING_FLYWAY_LOCATIONS: classpath:db/migration
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
-      SERVER_PORT: 8080
+      SERVER_PORT: 6060
     ports:
-      - "8080:8080"
+      - "6060:6060"
     depends_on:
       mysql:
         condition: service_healthy

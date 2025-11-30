@@ -44,7 +44,11 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-        return ResponseEntity.ok(queryService.getAllBookings());
+    public ResponseEntity<List<BookingResponse>> getAllBookings(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(required = false) String search
+    ) {
+        return ResponseEntity.ok(queryService.getAllBookings(page, limit));
     }
 }

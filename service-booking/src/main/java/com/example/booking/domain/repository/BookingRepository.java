@@ -8,6 +8,7 @@ public interface BookingRepository {
     Booking save(Booking booking);
     Optional<Booking> findById(Long id);
     List<Booking> findAll();
+    List<Booking> findAll(int page, int limit);
     boolean existsActiveBookingForUserAndTour(Long userId, Long tourId);
     void updateBookingStatus(Long bookingId, String status);
 }
