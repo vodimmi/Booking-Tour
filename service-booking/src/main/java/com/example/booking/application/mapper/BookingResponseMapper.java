@@ -9,5 +9,7 @@ import org.mapstruct.Mapping;
 public interface BookingResponseMapper {
     @Mapping(target = "customerName", ignore = true)
     @Mapping(target = "customerEmail", ignore = true)
+    @Mapping(target = "tourStartDate", source = "tourStartDate", dateFormat = "yyyy-MM-dd")
+    @Mapping(target = "tourEndDate", source = "tourEndDate", dateFormat = "yyyy-MM-dd")
     BookingResponse toResponse(Booking booking);
 }

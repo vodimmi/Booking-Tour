@@ -2,59 +2,46 @@ package com.example.booking.application.mapper;
 
 import com.example.booking.application.dto.BookingResponse;
 import com.example.booking.domain.model.Booking;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
-@Generated(value = "org.mapstruct.ap.MappingProcessor", date = "2025-12-01T02:08:26+0700", comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)")
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2025-12-01T04:12:50+0700",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
+)
 @Component
 public class BookingResponseMapperImpl implements BookingResponseMapper {
 
+    private final DateTimeFormatter dateTimeFormatter_yyyy_MM_dd_0159776256 = DateTimeFormatter.ofPattern( "yyyy-MM-dd" );
+
     @Override
     public BookingResponse toResponse(Booking booking) {
-        if (booking == null) {
+        if ( booking == null ) {
             return null;
         }
 
-        Long id = null;
-        Long userId = null;
-        Long tourId = null;
-        Integer numberOfPeople = null;
-        BigDecimal totalPrice = null;
-        LocalDateTime bookingDate = null;
-        String tourStartDate = null;
-        String tourEndDate = null;
-        String status = null;
-        String rejectionReason = null;
-        LocalDateTime createdAt = null;
-        LocalDateTime updatedAt = null;
+        BookingResponse.BookingResponseBuilder bookingResponse = BookingResponse.builder();
 
-        id = booking.getId();
-        userId = booking.getUserId();
-        tourId = booking.getTourId();
-        numberOfPeople = booking.getNumberOfPeople();
-        totalPrice = booking.getTotalPrice();
-        bookingDate = booking.getBookingDate();
-        if (booking.getTourStartDate() != null) {
-            tourStartDate = DateTimeFormatter.ISO_LOCAL_DATE.format(booking.getTourStartDate());
+        if ( booking.getTourStartDate() != null ) {
+            bookingResponse.tourStartDate( dateTimeFormatter_yyyy_MM_dd_0159776256.format( booking.getTourStartDate() ) );
         }
-        if (booking.getTourEndDate() != null) {
-            tourEndDate = DateTimeFormatter.ISO_LOCAL_DATE.format(booking.getTourEndDate());
+        if ( booking.getTourEndDate() != null ) {
+            bookingResponse.tourEndDate( dateTimeFormatter_yyyy_MM_dd_0159776256.format( booking.getTourEndDate() ) );
         }
-        status = booking.getStatus();
-        rejectionReason = booking.getRejectionReason();
-        createdAt = booking.getCreatedAt();
-        updatedAt = booking.getUpdatedAt();
+        bookingResponse.bookingDate( booking.getBookingDate() );
+        bookingResponse.createdAt( booking.getCreatedAt() );
+        bookingResponse.id( booking.getId() );
+        bookingResponse.numberOfPeople( booking.getNumberOfPeople() );
+        bookingResponse.rejectionReason( booking.getRejectionReason() );
+        bookingResponse.specialRequirements( booking.getSpecialRequirements() );
+        bookingResponse.status( booking.getStatus() );
+        bookingResponse.totalPrice( booking.getTotalPrice() );
+        bookingResponse.tourId( booking.getTourId() );
+        bookingResponse.updatedAt( booking.getUpdatedAt() );
+        bookingResponse.userId( booking.getUserId() );
 
-        String customerName = null;
-        String customerEmail = null;
-
-        BookingResponse bookingResponse = new BookingResponse(id, userId, customerName, customerEmail, tourId,
-                numberOfPeople, totalPrice, bookingDate, tourStartDate, tourEndDate, status, rejectionReason, createdAt,
-                updatedAt);
-
-        return bookingResponse;
+        return bookingResponse.build();
     }
 }

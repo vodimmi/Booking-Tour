@@ -20,24 +20,21 @@ public class BookingEventPublisher {
 
     public void publishBookingCreatedEvent(Booking booking) {
         BookingEvent event = BookingEvent.bookingCreated(
-            booking.getId(),
-            booking.getUserId(),
-            booking.getTourId()
-        );
+                booking.getId(),
+                booking.getUserId(),
+                booking.getTourId());
         try {
             rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, event);
         } catch (AmqpException ex) {
-            // Log and continue — publishing failure should not break the booking API
             log.warn("Failed to publish bookingCreated event for bookingId={}: {}", booking.getId(), ex.getMessage());
         }
     }
 
     public void publishBookingConfirmedEvent(Booking booking) {
         BookingEvent event = BookingEvent.bookingConfirmed(
-            booking.getId(),
-            booking.getUserId(),
-            booking.getTourId()
-        );
+                booking.getId(),
+                booking.getUserId(),
+                booking.getTourId());
         try {
             rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, event);
         } catch (AmqpException ex) {
@@ -45,13 +42,24 @@ public class BookingEventPublisher {
         }
     }
 
+    public void publishBookingCancelledEvent(Booking booking) {
+        BookingEvent event = BookingEvent.bookingCancelled(
+                booking.getId(),
+                booking.getUserId(),
+                booking.getTourId());
+        try {
+            rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, event);
+        } catch (AmqpException ex) {
+            log.warn("Failed to publish bookingCancelled event for bookingId={}: {}", booking.getId(), ex.getMessage());
+        }
+    }
+
     public void publishBookingRejectedEvent(Booking booking, String reason) {
         BookingEvent event = BookingEvent.bookingRejected(
-            booking.getId(),
-            booking.getUserId(),
-            booking.getTourId(),
-            reason
-        );
+                booking.getId(),
+                booking.getUserId(),
+                booking.getTourId(),
+                reason);
         try {
             rabbitTemplate.convertAndSend(RabbitConfig.EXCHANGE, RabbitConfig.ROUTING_KEY, event);
         } catch (AmqpException ex) {

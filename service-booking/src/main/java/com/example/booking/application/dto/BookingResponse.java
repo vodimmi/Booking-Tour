@@ -23,5 +23,6 @@ public class BookingResponse {
     private String status;
     private String rejectionReason;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;    
+    private String specialRequirements;
 }

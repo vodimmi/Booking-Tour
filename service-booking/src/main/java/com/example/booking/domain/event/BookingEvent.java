@@ -37,6 +37,17 @@ public class BookingEvent {
                 .build();
     }
 
+    public static BookingEvent bookingCancelled(Long bookingId, Long userId, Long tourId) {
+        return BookingEvent.builder()
+                .eventType("BOOKING_CANCELLED")
+                .bookingId(bookingId)
+                .userId(userId)
+                .tourId(tourId)
+                .status("CANCELLED")
+                .timestamp(LocalDateTime.now())
+                .build();
+    }
+
     public static BookingEvent bookingRejected(Long bookingId, Long userId, Long tourId, String reason) {
         return BookingEvent.builder()
                 .eventType("BOOKING_REJECTED")

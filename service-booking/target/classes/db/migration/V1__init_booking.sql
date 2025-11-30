@@ -11,6 +11,7 @@ CREATE TABLE bookings (
     rejection_reason VARCHAR(255),
     created_at DATETIME NOT NULL,
     updated_at DATETIME,
+    special_requirements VARCHAR(255),
 
     CONSTRAINT chk_number_of_people CHECK (number_of_people > 0),
     CONSTRAINT chk_total_price CHECK (total_price >= 0),
@@ -22,7 +23,13 @@ CREATE INDEX idx_tour_bookings ON bookings(tour_id, status);
 CREATE INDEX idx_booking_date ON bookings(booking_date);
 CREATE INDEX idx_tour_start_date ON bookings(tour_start_date);
 
+DELIMITER $$
+
 CREATE TRIGGER trg_booking_update
 BEFORE UPDATE ON bookings
 FOR EACH ROW
-SET NEW.updated_at = CURRENT_TIMESTAMP;
+BEGIN
+    SET NEW.updated_at = CURRENT_TIMESTAMP;
+END$$
+
+DELIMITER ;

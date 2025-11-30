@@ -104,7 +104,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"tourId\": 1,\n    \"userId\": 1,\n    \"numberOfPeople\": 2,\n    \"totalPrice\": 1000.00,\n    \"bookingDate\": \"2025-11-24T09:00:00\",\n    \"specialRequirements\": \"Test new\"\n}",
+              "raw": "{\n  \"tourId\": 2,\n  \"userId\": 2,\n  \"numberOfPeople\": 3,\n  \"totalPrice\": 4500000,\n  \"bookingDate\": \"2025-11-30T20:40:01.425\",\n  \"tourStartDate\": \"2025-12-12\",\n  \"tourEndDate\": \"2025-12-24\",\n  \"specialRequirements\": null\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -112,10 +112,12 @@
               }
             },
             "url": {
-              "raw": "{{booking-url}}/api/bookings",
+              "raw": "http://localhost:8082/api/bookings",
+              "protocol": "http",
               "host": [
-                "{{booking-url}}"
+                "localhost"
               ],
+              "port": "8082",
               "path": [
                 "api",
                 "bookings"
@@ -184,6 +186,25 @@
                 "bookings",
                 "user",
                 "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel booking",
+          "id": "ca31a436-5fd5-48b1-9b91-9e233c0939a6",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/7/cancel",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "7",
+                "cancel"
               ]
             }
           }
@@ -482,32 +503,6 @@
               ]
             }
           }
-        },
-        {
-          "name": "Get user by id",
-          "id": "3f9a1b2c-1234-4d5e-9f12-abcdef123456",
-          "request": {
-            "method": "GET",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{authToken}}"
-              }
-            ],
-            "url": {
-              "raw": "http://localhost:8080/api/users/2",
-              "protocol": "http",
-              "host": [
-                "localhost"
-              ],
-              "port": "8080",
-              "path": [
-                "api",
-                "users",
-                "2"
-              ]
-            }
-          }
         }
       ],
       "id": "auth-collection",
@@ -525,31 +520,31 @@
   ],
   "variable": [
     {
-      "id": "fbfc9b52-c721-4aae-b5a0-ee2099a06cf2",
+      "id": "48706c26-5c37-4040-b89e-2c16c44d6ad1",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "1785d94f-1a95-4db4-8ddd-cf44d1a46398",
+      "id": "16926983-e8b9-472b-a3a8-a9266f8f24c0",
       "key": "auth-url",
       "value": "http://localhost:6060",
       "type": "string"
     },
     {
-      "id": "dfcce3c9-c181-406d-be0f-fbca8df25ed5",
+      "id": "552c9024-33a5-49cd-ac9e-46d9027e2299",
       "key": "authToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "3967238d-a2dc-4dce-bffe-8ca5a488e720",
+      "id": "f50c0b27-1def-4ffd-b30f-c1e14ca206f2",
       "key": "refreshToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "fb566f6a-62c3-4f76-8e0f-cccc7774b931",
+      "id": "6615c515-b57b-49b6-9938-d6e0b70a4263",
       "key": "booking-url",
       "value": "",
       "type": "default"

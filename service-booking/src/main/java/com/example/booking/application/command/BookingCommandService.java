@@ -40,6 +40,17 @@ public class BookingCommandService {
     }
 
     @Transactional
+    public void handleCancelledBooking(Long bookingId) {
+        Booking booking = bookingRepository.findById(bookingId)
+                .orElseThrow(() -> new BookingNotFoundException(bookingId));
+
+        booking.cancel();
+        bookingRepository.save(booking);
+
+        eventPublisher.publishBookingCancelledEvent(booking);
+    }
+
+    @Transactional
     public void handleRejectBooking(Long bookingId, String reason) {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new BookingNotFoundException(bookingId));

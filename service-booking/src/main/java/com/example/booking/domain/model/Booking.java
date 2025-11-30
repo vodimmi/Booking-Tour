@@ -55,16 +55,20 @@ public class Booking {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "special_requirements")
+    private String specialRequirements;
+
     public static Booking create(CreateBookingCommand command) {
         return Booking.builder()
-                .userId(command.getUserId())
                 .tourId(command.getTourId())
+                .userId(command.getUserId())
                 .numberOfPeople(command.getNumberOfPeople())
                 .totalPrice(command.getTotalPrice())
                 .bookingDate(command.getBookingDate())
                 .tourStartDate(command.getTourStartDate())
                 .tourEndDate(command.getTourEndDate())
-                .status("PENDING")
+                .specialRequirements(command.getSpecialRequirements()) // optional
+                .status("PENDING") // default
                 .createdAt(LocalDateTime.now())
                 .build();
     }

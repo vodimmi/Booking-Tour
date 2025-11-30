@@ -30,6 +30,12 @@ public class BookingController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelBooking(@PathVariable("id") Long id) {
+        commandService.handleCancelledBooking(id);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/{id}/reject")
     public ResponseEntity<Void> rejectBooking(
             @PathVariable("id") Long id,
