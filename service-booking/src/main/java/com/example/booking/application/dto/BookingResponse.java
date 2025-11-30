@@ -16,7 +16,8 @@ public class BookingResponse {
     private Integer numberOfPeople;
     private BigDecimal totalPrice;
     private LocalDateTime bookingDate;
-    private String tourStartDate; // Tour start date (Ngày tham gia)
+    private String tourStartDate;
+    private String tourEndDate;
     private String status;
     private String rejectionReason;
     private LocalDateTime createdAt;
