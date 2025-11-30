@@ -46,10 +46,9 @@ public class BookingController {
     @GetMapping
     public ResponseEntity<List<BookingResponse>> getAllBookings(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(required = false) String search
     ) {
-        List<BookingResponse> bookings = queryService.getAllBookings(page, limit);
-        if (bookings.isEmpty()) return ResponseEntity.noContent().build();
-        return ResponseEntity.ok(bookings);
+        return ResponseEntity.ok(queryService.getAllBookings(page, limit));
     }
 }

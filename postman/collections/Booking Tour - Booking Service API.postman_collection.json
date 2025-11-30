@@ -15,13 +15,48 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{booking-url}}/api/bookings",
+              "raw": "http://localhost:8082/api/bookings",
+              "protocol": "http",
               "host": [
-                "{{booking-url}}"
+                "localhost"
               ],
+              "port": "8082",
               "path": [
                 "api",
                 "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List bookings with pagination",
+          "id": "bf789caf-f3f7-4608-94cd-1ded84d567cb",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/bookings?page=1&limit=10&search=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
               ]
             }
           }
@@ -443,31 +478,31 @@
   ],
   "variable": [
     {
-      "id": "2bb00a12-7051-4847-9ac8-9e06835d9e62",
+      "id": "fcd02b77-5d25-4e36-87be-bd502e66c967",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "ffc9c155-b08f-4ee9-a882-168adda6a994",
+      "id": "bd38c250-6f91-4373-bbbe-648d609d5dd9",
       "key": "auth-url",
       "value": "http://localhost:8080",
       "type": "string"
     },
     {
-      "id": "b8e3020d-dc83-4d53-868a-d25f0894c76f",
+      "id": "a4f3e7bc-e08d-45d6-8168-e1800f541148",
       "key": "authToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "e59c7ffd-40a6-4bc0-8b1d-3b27c55e52c3",
+      "id": "29e338c7-5e6f-4499-babb-f47c876ede6c",
       "key": "refreshToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "10b9848f-1c8a-4e94-916d-092117265632",
+      "id": "51af4088-992c-4e1d-a017-04216f53a84a",
       "key": "booking-url",
       "value": "",
       "type": "default"

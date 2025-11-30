@@ -6,12 +6,14 @@ import com.example.booking.domain.exception.BookingNotFoundException;
 import com.example.booking.domain.repository.BookingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BookingQueryService {
     private final BookingRepository bookingRepository;
     private final BookingResponseMapper mapper;
@@ -32,5 +34,10 @@ public class BookingQueryService {
         return bookingRepository.findAll(page, limit).stream()
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
+    }
+
+    public List<BookingResponse> getAllBookings(int page, int limit, String search) {
+        // Currently search is not implemented, just ignore it and return paginated results
+        return getAllBookings(page, limit);
     }
 }

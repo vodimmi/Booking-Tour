@@ -22,3 +22,4 @@ spring:
     issuer: booking-tour-booking
     access-token-ttl-minutes: 30
     refresh-token-ttl-days: 7
+
