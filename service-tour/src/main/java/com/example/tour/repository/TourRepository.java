@@ -12,6 +12,9 @@ import java.util.List;
 
 @Repository
 public interface TourRepository extends JpaRepository<Tour, Long> {
+    @Query("SELECT t FROM Tour t WHERE LOWER(t.name) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "OR LOWER(t.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+    List<Tour> searchTours(@Param("keyword") String keyword);
     @Query("SELECT t FROM Tour t WHERE t.status <> 'INACTIVE'")
     Page<Tour> findAllActive(Pageable pageable);
 

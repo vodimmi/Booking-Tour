@@ -115,7 +115,7 @@ public class TourService {
 
     private TourResponseDto toDto(Tour t) {
         TourResponseDto r = new TourResponseDto();
-        r.setId(t.getTourId());
+        r.setId(t.getId());
         r.setName(t.getName());
         r.setDescription(t.getDescription());
         r.setPrice(t.getPrice());

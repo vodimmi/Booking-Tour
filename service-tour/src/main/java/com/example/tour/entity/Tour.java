@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "tour")
+@Table(name = "tours")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -16,7 +16,7 @@ public class Tour {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tourId;
+    private Long id;
 
     @Column(nullable = false)
     private String name;

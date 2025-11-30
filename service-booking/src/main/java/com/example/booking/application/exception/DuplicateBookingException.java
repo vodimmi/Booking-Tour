@@ -1,0 +1,7 @@
+package com.example.booking.application.exception;
+
+public class DuplicateBookingException extends RuntimeException {
+    public DuplicateBookingException(String message) {
+        super(message);
+    }
+}
