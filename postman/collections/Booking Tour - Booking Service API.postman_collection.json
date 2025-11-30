@@ -319,12 +319,12 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "http://localhost:8080/jwks.json",
+              "raw": "http://localhost:6060/jwks.json",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "jwks.json"
               ]
@@ -352,12 +352,12 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/api/auth/register",
+              "raw": "http://localhost:6060/api/auth/register",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "api",
                 "auth",
@@ -387,12 +387,12 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/api/auth/login",
+              "raw": "http://localhost:6060/api/auth/login",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "api",
                 "auth",
@@ -422,12 +422,12 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8080/api/auth/refresh",
+              "raw": "http://localhost:6060/api/auth/refresh",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "api",
                 "auth",
@@ -448,12 +448,12 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8080/api/auth/me",
+              "raw": "http://localhost:6060/api/auth/me",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "api",
                 "auth",
@@ -474,12 +474,12 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:8080/api/users/2",
+              "raw": "http://localhost:6060/api/users/2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "8080",
+              "port": "6060",
               "path": [
                 "api",
                 "users",
@@ -512,7 +512,7 @@
     {
       "id": "ac87b8bd-67c1-4565-8907-151cbbbc8265",
       "key": "auth-url",
-      "value": "http://localhost:8080",
+      "value": "http://localhost:6060",
       "type": "string"
     },
     {

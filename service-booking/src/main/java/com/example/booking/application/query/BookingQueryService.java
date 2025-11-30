@@ -23,7 +23,7 @@ public class BookingQueryService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final String authServiceBaseUrl = System.getenv("AUTH_API_BASE_URL") != null
             ? System.getenv("AUTH_API_BASE_URL")
-            : "http://service-auth:8080";
+            : "http://service-auth:6060";
 
     public BookingResponse getBookingById(Long id) {
         return bookingRepository.findById(id)
