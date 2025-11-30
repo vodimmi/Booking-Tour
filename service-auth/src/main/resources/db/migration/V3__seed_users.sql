@@ -1,12 +1,21 @@
 -- Seed initial users and assign roles (idempotent)
 
+-- Insert roles
+INSERT INTO roles (name)
+SELECT 'ADMIN' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'ADMIN');
+
+INSERT INTO roles (name)
+SELECT 'USER' WHERE NOT EXISTS (SELECT 1 FROM roles WHERE name = 'USER');
+
 -- insert users (skip if email exists)
+-- Password: Admin@123
 INSERT INTO users (email, password_hash, full_name, is_active)
-SELECT 'admin@example.com', '$2b$10$xTk7LGCL652PCs2bsfg4uexq2waDyWzvNp189j1CgPAb2WCji3K/2', 'System Administrator', TRUE
+SELECT 'admin@example.com', '$2a$10$WyX.ZGSFUvoZ.RIv.kMxzOyETtToSUL0Sw8NuHR6o42py3xleYiGu', 'System Administrator', TRUE
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email='admin@example.com');
 
+-- Password: User@123
 INSERT INTO users (email, password_hash, full_name, is_active)
-SELECT 'user@example.com', '$2b$10$oRt/9Voc86JemefoxclwmuMcyuecMkJZ3aBbYSQadCLfY/A1XhMuy', 'Regular User', TRUE
+SELECT 'user@example.com', '$2a$10$9gvs0mjqRNvLTY.eVUOQ2.jb0csLx/sHbY92CKrt96odypVVxCbdK', 'Regular User', TRUE
 WHERE NOT EXISTS (SELECT 1 FROM users WHERE email='user@example.com');
 
 -- assign roles

@@ -379,7 +379,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "//User\n\n// {\n//   \"email\": \"test@example.com\",\n//   \"password\": \"Password123!\"\n// }\n\n\n//Admin\n\n{\n  \"email\": \"seed-admin@example.com\",\n  \"password\": \"Admin@2025!\"\n}",
+              "raw": "//User\n\n// {\n//   \"email\": \"test@example.com\",\n//   \"password\": \"Password123!\"\n// }\n\n\n//Admin\n\n{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin@123\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -504,31 +504,31 @@
   ],
   "variable": [
     {
-      "id": "d3c2681c-7a88-4bc1-961f-b968a102802d",
+      "id": "271f8874-b319-497d-abd6-80763277d1ef",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "ac87b8bd-67c1-4565-8907-151cbbbc8265",
+      "id": "7e0467c7-0611-4fd9-a1c0-9245d48c2e17",
       "key": "auth-url",
       "value": "http://localhost:6060",
       "type": "string"
     },
     {
-      "id": "a36a3a95-ba18-4c34-9268-15bf687d51f3",
+      "id": "7b867033-1ee6-4ced-949a-34250d5f386a",
       "key": "authToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "ce915615-073f-4d65-910a-c8be842a9ad1",
+      "id": "c6358cc0-e68a-4c84-9e7b-82aa6b7a439f",
       "key": "refreshToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "0598b595-6fdf-4570-9b64-0d60150b4676",
+      "id": "c461c8ad-1c47-4ec3-8703-432df5ec17e0",
       "key": "booking-url",
       "value": "",
       "type": "default"

@@ -15,7 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth/users")
+@RequestMapping("/api/users")
 @Tag(name = "User Management", description = "User management APIs (ADMIN only)")
 public class UserController {
 
