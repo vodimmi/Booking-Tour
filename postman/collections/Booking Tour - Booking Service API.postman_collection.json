@@ -278,190 +278,196 @@
     {
       "name": "Auth",
       "item": [
-            {
-              "name": "JWKS",
-              "id": "175c763b-8cf3-411b-bac8-9c4acb1acfaf",
-              "request": {
-                "method": "GET",
-                "url": {
-                  "raw": "http://localhost:8080/jwks.json",
-                  "protocol": "http",
-                  "host": [
-                    "localhost"
-                  ],
-                  "port": "8080",
-                  "path": [
-                    "jwks.json"
-                  ]
-                }
-              }
-            },
-            {
-              "name": "Register",
-              "id": "2e49736c-5c9a-4110-a2d1-27c540934de8",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "http://localhost:8080/api/auth/register",
-                  "protocol": "http",
-                  "host": [
-                    "localhost"
-                  ],
-                  "port": "8080",
-                  "path": [
-                    "api",
-                    "auth",
-                    "register"
-                  ]
-                }
-              }
-            },
-            {
-              "name": "Login",
-              "id": "9852a705-5f7c-4ff6-92e9-b94e59cd97e4",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"email\": \"abc@gmail.com\",\n  \"password\": \"123123\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "http://localhost:8080/api/auth/login",
-                  "protocol": "http",
-                  "host": [
-                    "localhost"
-                  ],
-                  "port": "8080",
-                  "path": [
-                    "api",
-                    "auth",
-                    "login"
-                  ]
-                }
-              }
-            },
-            {
-              "name": "Refresh",
-              "id": "37015d31-f596-4b9e-8284-3b5facb9ce12",
-              "request": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
-                  "options": {
-                    "raw": {
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "http://localhost:8080/api/auth/refresh",
-                  "protocol": "http",
-                  "host": [
-                    "localhost"
-                  ],
-                  "port": "8080",
-                  "path": [
-                    "api",
-                    "auth",
-                    "refresh"
-                  ]
-                }
-              }
-            },
-            {
-              "name": "Me",
-              "id": "80cc2370-4b87-4057-bb2b-7f4e42fdeeb5",
-              "request": {
-                "method": "GET",
-                "header": [
-                  {
-                    "key": "Authorization",
-                    "value": "Bearer {{authToken}}"
-                  }
-                ],
-                "url": {
-                  "raw": "http://localhost:8080/api/auth/me",
-                  "protocol": "http",
-                  "host": [
-                    "localhost"
-                  ],
-                  "port": "8080",
-                  "path": [
-                    "api",
-                    "auth",
-                    "me"
-                  ]
-                }
-              }
+        {
+          "name": "JWKS",
+          "id": "175c763b-8cf3-411b-bac8-9c4acb1acfaf",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8080/jwks.json",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "jwks.json"
+              ]
             }
-          ],
-          "id": "auth-collection",
-          "description": "Authentication endpoints for service-auth (register, login, refresh, me, jwks)"
+          }
+        },
+        {
+          "name": "Register",
+          "id": "2e49736c-5c9a-4110-a2d1-27c540934de8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "id": "9852a705-5f7c-4ff6-92e9-b94e59cd97e4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "//User\n\n// {\n//   \"email\": \"test@example.com\",\n//   \"password\": \"Password123!\"\n// }\n\n\n//Admin\n\n{\n  \"email\": \"seed-admin@example.com\",\n  \"password\": \"Admin@2025!\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refresh",
+          "id": "37015d31-f596-4b9e-8284-3b5facb9ce12",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/refresh",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "id": "80cc2370-4b87-4057-bb2b-7f4e42fdeeb5",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8080",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        }
+      ],
+      "id": "auth-collection",
+      "description": "Authentication endpoints for service-auth (register, login, refresh, me, jwks)"
     },
     {
-      "id": "2244fd46-c8ac-4f8a-b522-abd35f58606a"
+      "name": "",
+      "id": "2244fd46-c8ac-4f8a-b522-abd35f58606a",
+      "request": {
+        "url": {
+          "raw": ""
+        }
+      }
     }
   ],
   "variable": [
     {
-      "id": "7133a9ad-68de-4727-8292-f05da12560fb",
+      "id": "2bb00a12-7051-4847-9ac8-9e06835d9e62",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "1f7a07d8-96eb-467e-aabf-bebf48a67382",
+      "id": "ffc9c155-b08f-4ee9-a882-168adda6a994",
       "key": "auth-url",
       "value": "http://localhost:8080",
       "type": "string"
     },
     {
-      "id": "fe19f9c7-a2bf-489c-ab4b-67a883dbff2e",
+      "id": "b8e3020d-dc83-4d53-868a-d25f0894c76f",
       "key": "authToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "b2cf077d-f976-4cdb-b4db-143796200018",
+      "id": "e59c7ffd-40a6-4bc0-8b1d-3b27c55e52c3",
       "key": "refreshToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "97f643a0-6489-4fbe-b2cc-27e03b46bab0",
+      "id": "10b9848f-1c8a-4e94-916d-092117265632",
       "key": "booking-url",
       "value": "",
       "type": "default"
