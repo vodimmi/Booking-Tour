@@ -495,12 +495,12 @@
               }
             ],
             "url": {
-              "raw": "http://localhost:6060/api/users/2",
+              "raw": "http://localhost:8080/api/users/2",
               "protocol": "http",
               "host": [
                 "localhost"
               ],
-              "port": "6060",
+              "port": "8080",
               "path": [
                 "api",
                 "users",
@@ -525,31 +525,31 @@
   ],
   "variable": [
     {
-      "id": "8659845b-2a2d-451a-b92a-550cbf4b0088",
+      "id": "fbfc9b52-c721-4aae-b5a0-ee2099a06cf2",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "d8bb11e7-c8d0-4e9f-a016-5447376093fc",
+      "id": "1785d94f-1a95-4db4-8ddd-cf44d1a46398",
       "key": "auth-url",
       "value": "http://localhost:6060",
       "type": "string"
     },
     {
-      "id": "d76ed57f-c5f2-4dc9-a7ae-9bdb35894d21",
+      "id": "dfcce3c9-c181-406d-be0f-fbca8df25ed5",
       "key": "authToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "a921e286-b308-4f05-8c28-fb8273cb2219",
+      "id": "3967238d-a2dc-4dce-bffe-8ca5a488e720",
       "key": "refreshToken",
       "value": "",
       "type": "string"
     },
     {
-      "id": "67f27141-542d-469f-b5a9-863739f13e50",
+      "id": "fb566f6a-62c3-4f76-8e0f-cccc7774b931",
       "key": "booking-url",
       "value": "",
       "type": "default"

@@ -8,17 +8,13 @@ import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
-@Generated(
-    value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-12-01T01:54:05+0700",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)"
-)
+@Generated(value = "org.mapstruct.ap.MappingProcessor", date = "2025-12-01T02:08:26+0700", comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.44.0.v20251118-1623, environment: Java 21.0.9 (Eclipse Adoptium)")
 @Component
 public class BookingResponseMapperImpl implements BookingResponseMapper {
 
     @Override
     public BookingResponse toResponse(Booking booking) {
-        if ( booking == null ) {
+        if (booking == null) {
             return null;
         }
 
@@ -41,11 +37,11 @@ public class BookingResponseMapperImpl implements BookingResponseMapper {
         numberOfPeople = booking.getNumberOfPeople();
         totalPrice = booking.getTotalPrice();
         bookingDate = booking.getBookingDate();
-        if ( booking.getTourStartDate() != null ) {
-            tourStartDate = DateTimeFormatter.ISO_LOCAL_DATE.format( booking.getTourStartDate() );
+        if (booking.getTourStartDate() != null) {
+            tourStartDate = DateTimeFormatter.ISO_LOCAL_DATE.format(booking.getTourStartDate());
         }
-        if ( booking.getTourEndDate() != null ) {
-            tourEndDate = DateTimeFormatter.ISO_LOCAL_DATE.format( booking.getTourEndDate() );
+        if (booking.getTourEndDate() != null) {
+            tourEndDate = DateTimeFormatter.ISO_LOCAL_DATE.format(booking.getTourEndDate());
         }
         status = booking.getStatus();
         rejectionReason = booking.getRejectionReason();
@@ -55,7 +51,9 @@ public class BookingResponseMapperImpl implements BookingResponseMapper {
         String customerName = null;
         String customerEmail = null;
 
-        BookingResponse bookingResponse = new BookingResponse( id, userId, customerName, customerEmail, tourId, numberOfPeople, totalPrice, bookingDate, tourStartDate, tourEndDate, status, rejectionReason, createdAt, updatedAt );
+        BookingResponse bookingResponse = new BookingResponse(id, userId, customerName, customerEmail, tourId,
+                numberOfPeople, totalPrice, bookingDate, tourStartDate, tourEndDate, status, rejectionReason, createdAt,
+                updatedAt);
 
         return bookingResponse;
     }
