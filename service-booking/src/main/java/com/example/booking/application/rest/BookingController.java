@@ -44,7 +44,12 @@ public class BookingController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-        return ResponseEntity.ok(queryService.getAllBookings());
+    public ResponseEntity<List<BookingResponse>> getAllBookings(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit
+    ) {
+        List<BookingResponse> bookings = queryService.getAllBookings(page, limit);
+        if (bookings.isEmpty()) return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(bookings);
     }
 }

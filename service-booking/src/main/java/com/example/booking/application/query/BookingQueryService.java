@@ -27,4 +27,10 @@ public class BookingQueryService {
                 .map(mapper::toResponse)
                 .collect(Collectors.toList());
     }
+
+    public List<BookingResponse> getAllBookings(int page, int limit) {
+        return bookingRepository.findAll(page, limit).stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+    }
 }

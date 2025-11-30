@@ -34,6 +34,16 @@ public class JpaBookingRepository implements BookingRepository {
     }
 
     @Override
+    public List<Booking> findAll(int page, int limit) {
+        if (page < 1) page = 1;
+        if (limit <= 0) limit = 10;
+        return entityManager.createQuery("SELECT b FROM Booking b", Booking.class)
+                .setFirstResult((page - 1) * limit)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    @Override
     public boolean existsActiveBookingForUserAndTour(Long userId, Long tourId) {
         Long count = entityManager.createQuery(
                 "SELECT COUNT(b) FROM Booking b WHERE b.userId = :userId AND b.tourId = :tourId AND b.status IN ('PENDING', 'CONFIRMED')",
