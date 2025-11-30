@@ -38,7 +38,7 @@ public class BookingController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public ResponseEntity<BookingResponse> getBooking(@PathVariable("id") Long id) {
         return ResponseEntity.ok(queryService.getBookingById(id));
     }
@@ -47,8 +47,15 @@ public class BookingController {
     public ResponseEntity<List<BookingResponse>> getAllBookings(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(required = false) String search
-    ) {
+            @RequestParam(required = false) String search) {
         return ResponseEntity.ok(queryService.getAllBookings(page, limit));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponse>> getBookingsByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.ok(queryService.getBookingsByUser(userId, page, limit));
     }
 }
