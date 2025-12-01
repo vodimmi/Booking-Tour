@@ -1,15 +1,13 @@
--- V2__seed_bookings.sql
--- Seed data for bookings. This migration avoids DELIMITER/SELECT/USE statements so it works with Flyway/JDBC.
--- Insert a handful of example bookings that satisfy the table constraints.
-
-INSERT INTO bookings (user_id, tour_id, number_of_people, total_price, booking_date, status, rejection_reason, created_at)
+INSERT INTO bookings 
+(user_id, tour_id, number_of_people, total_price, booking_date, tour_start_date, tour_end_date, status, rejection_reason, created_at)
 VALUES
-  (2, 200, 2, 150.00, '2025-12-05 09:00:00', 'PENDING', NULL, NOW()),
-  (11, 201, 4, 600.00, '2025-12-10 14:00:00', 'CONFIRMED', NULL, NOW()),
-  (3, 202, 1, 50.00, '2025-12-01 08:00:00', 'REJECTED', 'Overbooked', NOW()),
-  (4, 203, 3, 300.00, '2025-12-15 10:00:00', 'CANCELLED', NULL, NOW()),
-  (14, 204, 5, 1250.00, '2026-01-05 12:00:00', 'PENDING', NULL, NOW()),
-  (7, 205, 2, 220.00, '2025-12-20 16:30:00', 'CONFIRMED', NULL, NOW());
-
--- Optional: if you want to make this idempotent across re-runs, you could wrap inserts in
--- conditional logic or use a separate check. Flyway runs migrations once, so simple INSERTs are fine.
+  (2, 1, 2, 150.00, '2025-12-05 09:00:00', '2025-12-10', '2025-12-12', 'PENDING', NULL, NOW()),
+  (2, 2, 4, 600.00, '2025-12-10 14:00:00', '2025-12-15', '2025-12-20', 'CONFIRMED', NULL, NOW()),
+  (2, 3, 1, 50.00, '2025-12-01 08:00:00', '2025-12-05', '2025-12-06', 'REJECTED', 'Overbooked', NOW()),
+  (2, 4, 3, 300.00, '2025-12-15 10:00:00', '2025-12-18', '2025-12-22', 'CANCELLED', NULL, NOW()),
+  (2, 5, 5, 1250.00, '2026-01-05 12:00:00', '2026-01-10', '2026-01-15', 'PENDING', NULL, NOW()),
+  (2, 6, 2, 220.00, '2025-12-20 16:30:00', '2025-12-25', '2025-12-28', 'CONFIRMED', NULL, NOW()),
+  (2, 7, 1, 80.00, '2025-12-07 09:00:00', '2025-12-10', '2025-12-11', 'PENDING', NULL, NOW()),
+  (2, 8, 6, 1800.00, '2025-12-18 11:00:00', '2025-12-22', '2025-12-28', 'CONFIRMED', NULL, NOW()),
+  (2, 9, 2, 200.00, '2025-12-22 13:00:00', '2025-12-25', '2025-12-27', 'CANCELLED', NULL, NOW()),
+  (2, 10, 3, 450.00, '2025-12-25 15:00:00', '2025-12-28', '2025-12-30', 'REJECTED', 'Payment failed', NOW());

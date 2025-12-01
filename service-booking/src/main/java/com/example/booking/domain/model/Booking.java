@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AccessLevel;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -36,6 +37,12 @@ public class Booking {
     @Column(name = "booking_date", nullable = false)
     private LocalDateTime bookingDate;
 
+    @Column(name = "tour_start_date")
+    private LocalDate tourStartDate;
+
+    @Column(name = "tour_end_date")
+    private LocalDate tourEndDate;
+
     @Column(name = "status", nullable = false)
     private String status;
 
@@ -48,14 +55,20 @@ public class Booking {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "special_requirements")
+    private String specialRequirements;
+
     public static Booking create(CreateBookingCommand command) {
         return Booking.builder()
-                .userId(command.getUserId())
                 .tourId(command.getTourId())
+                .userId(command.getUserId())
                 .numberOfPeople(command.getNumberOfPeople())
                 .totalPrice(command.getTotalPrice())
                 .bookingDate(command.getBookingDate())
-                .status("PENDING")
+                .tourStartDate(command.getTourStartDate())
+                .tourEndDate(command.getTourEndDate())
+                .specialRequirements(command.getSpecialRequirements()) // optional
+                .status("PENDING") // default
                 .createdAt(LocalDateTime.now())
                 .build();
     }

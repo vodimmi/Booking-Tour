@@ -24,7 +24,11 @@ services:
     build:
       context: .
       dockerfile: service-auth/Dockerfile
+      network: host
     container_name: bt-service-auth
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_AUTH?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
@@ -44,8 +48,12 @@ services:
     build:
       context: .
       dockerfile: service-tour/Dockerfile
+      network: host
     container_name: bt-service-tour
     restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_TOUR?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
@@ -68,7 +76,11 @@ services:
     build:
       context: .
       dockerfile: service-booking/Dockerfile
+      network: host
     container_name: bt-service-booking
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_BOOKING?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root

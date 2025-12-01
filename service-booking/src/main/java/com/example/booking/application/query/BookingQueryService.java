@@ -33,16 +33,16 @@ public class BookingQueryService {
 
     public List<BookingResponse> getAllBookings() {
         List<BookingResponse> results = bookingRepository.findAll().stream()
-            .map(mapper::toResponse)
-            .collect(Collectors.toList());
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
         enrichWithUser(results);
         return results;
     }
 
     public List<BookingResponse> getAllBookings(int page, int limit) {
         List<BookingResponse> results = bookingRepository.findAll(page, limit).stream()
-            .map(mapper::toResponse)
-            .collect(Collectors.toList());
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
         enrichWithUser(results);
         return results;
     }
@@ -52,7 +52,8 @@ public class BookingQueryService {
     }
 
     private void enrichWithUser(List<BookingResponse> results) {
-        if (results == null || results.isEmpty()) return;
+        if (results == null || results.isEmpty())
+            return;
         for (BookingResponse r : results) {
             // Fetch user info
             if (r.getUserId() != null) {
@@ -63,14 +64,15 @@ public class BookingQueryService {
                     if (user != null) {
                         Object fullName = user.get("fullName");
                         Object email = user.get("email");
-                        r.setCustomerName(fullName != null ? fullName.toString() : (email != null ? email.toString() : null));
+                        r.setCustomerName(
+                                fullName != null ? fullName.toString() : (email != null ? email.toString() : null));
                         r.setCustomerEmail(email != null ? email.toString() : null);
                     }
                 } catch (Exception ignored) {
                     // ignore failures to fetch user; FE will show N/A
                 }
             }
-            
+
             // Fetch tour start date
             if (r.getTourId() != null) {
                 try {
@@ -86,5 +88,15 @@ public class BookingQueryService {
                 }
             }
         }
+    }
+
+    public List<BookingResponse> getBookingsByUser(Long userId, int page, int limit) {
+        List<BookingResponse> results = bookingRepository.findByUserId(userId, page, limit)
+                .stream()
+                .map(mapper::toResponse)
+                .collect(Collectors.toList());
+
+        enrichWithUser(results);
+        return results;
     }
 }
