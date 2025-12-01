@@ -1,6 +1,7 @@
 package com.example.booking.domain.repository;
 
 import com.example.booking.domain.model.Booking;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +14,7 @@ public interface BookingRepository {
 
     List<Booking> findAll(int page, int limit);
 
-    boolean existsActiveBookingForUserAndTour(Long userId, Long tourId);
+    boolean existsOverlappingBooking(Long userId, Long tourId, LocalDate startDate, LocalDate endDate);
 
     void updateBookingStatus(Long bookingId, String status);
 

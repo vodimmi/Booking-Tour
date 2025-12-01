@@ -129,7 +129,7 @@
           "name": "Confirm booking",
           "id": "c3430039-2cbc-4293-b644-14c811440596",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "raw": "{{booking-url}}/api/bookings/7/confirm",
               "host": [
@@ -148,7 +148,7 @@
           "name": "Reject booking",
           "id": "ec116be1-02c4-4fb5-8b19-95b63a97ec6e",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "raw": "{{booking-url}}/api/bookings/7/reject?reason=No longer needed",
               "host": [
@@ -194,7 +194,7 @@
           "name": "Cancel booking",
           "id": "ca31a436-5fd5-48b1-9b91-9e233c0939a6",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "raw": "{{booking-url}}/api/bookings/7/cancel",
               "host": [

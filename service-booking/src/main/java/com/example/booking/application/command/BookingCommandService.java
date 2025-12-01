@@ -62,8 +62,23 @@ public class BookingCommandService {
     }
 
     private void validateBookingRequest(CreateBookingCommand command) {
-        if (bookingRepository.existsActiveBookingForUserAndTour(command.getUserId(), command.getTourId())) {
-            throw new DuplicateBookingException("User already has an active booking for this tour");
+        if (command.getTourStartDate() == null || command.getTourEndDate() == null) {
+            throw new IllegalArgumentException("Tour start date and end date are required");
+        }
+        
+        if (command.getTourEndDate().isBefore(command.getTourStartDate())) {
+            throw new IllegalArgumentException("Tour end date must be after start date");
+        }
+        
+        if (bookingRepository.existsOverlappingBooking(
+                command.getUserId(), 
+                command.getTourId(), 
+                command.getTourStartDate(), 
+                command.getTourEndDate())) {
+            throw new DuplicateBookingException(
+                "You already have an active booking for this tour with overlapping dates. " +
+                "Please cancel your existing booking or choose different dates."
+            );
         }
     }
 }

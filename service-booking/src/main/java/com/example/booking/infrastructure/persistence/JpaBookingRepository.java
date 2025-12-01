@@ -54,12 +54,19 @@ public class JpaBookingRepository implements BookingRepository {
     }
 
     @Override
-    public boolean existsActiveBookingForUserAndTour(Long userId, Long tourId) {
+    public boolean existsOverlappingBooking(Long userId, Long tourId, java.time.LocalDate startDate, java.time.LocalDate endDate) {
+        // Check if there's any active booking (PENDING or CONFIRMED) for the same user and tour
+        // where the date periods overlap
         Long count = entityManager.createQuery(
-                "SELECT COUNT(b) FROM Booking b WHERE b.userId = :userId AND b.tourId = :tourId AND b.status IN ('PENDING', 'CONFIRMED')",
+                "SELECT COUNT(b) FROM Booking b WHERE b.userId = :userId " +
+                "AND b.tourId = :tourId " +
+                "AND b.status IN ('PENDING', 'CONFIRMED') " +
+                "AND NOT (b.tourEndDate < :startDate OR b.tourStartDate > :endDate)",
                 Long.class)
                 .setParameter("userId", userId)
                 .setParameter("tourId", tourId)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getSingleResult();
 
         return count > 0;

@@ -24,19 +24,19 @@ public class BookingController {
         return ResponseEntity.created(URI.create("/api/bookings/" + bookingId)).build();
     }
 
-    @PostMapping("/{id}/confirm")
+    @PutMapping("/{id}/confirm")
     public ResponseEntity<Void> confirmBooking(@PathVariable("id") Long id) {
         commandService.handleConfirmBooking(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/cancel")
+    @PutMapping("/{id}/cancel")
     public ResponseEntity<Void> cancelBooking(@PathVariable("id") Long id) {
         commandService.handleCancelledBooking(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/reject")
+    @PutMapping("/{id}/reject")
     public ResponseEntity<Void> rejectBooking(
             @PathVariable("id") Long id,
             @RequestParam(value = "reason", required = true) String reason) {
