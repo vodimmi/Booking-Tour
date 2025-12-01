@@ -33,4 +33,11 @@ public class UserController {
         Page<UserListResponse> users = userManagementService.getAllUsers(page, size, sort);
         return ResponseEntity.ok(users);
     }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Get user by ID", description = "Get user details by user ID")
+    public ResponseEntity<UserListResponse> getUserById(@PathVariable Long id) {
+        UserListResponse user = userManagementService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
 }
