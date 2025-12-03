@@ -13,10 +13,16 @@ public class RabbitConfig {
     public static final String EXCHANGE = "booking-events-exchange";
     public static final String QUEUE = "booking-events";
     public static final String ROUTING_KEY = "booking.events";
+    public static final String PAYMENT_COMPLETED_QUEUE = "payment.completed.queue";
 
     @Bean
     public Queue bookingQueue() {
         return new Queue(QUEUE, true);
+    }
+
+    @Bean
+    public Queue paymentCompletedQueue() {
+        return new Queue(PAYMENT_COMPLETED_QUEUE, true);
     }
 
     @Bean
@@ -25,8 +31,8 @@ public class RabbitConfig {
     }
 
     @Bean
-    public Binding bookingBinding(Queue bookingQueue, DirectExchange bookingExchange) {
-        return BindingBuilder.bind(bookingQueue).to(bookingExchange).with(ROUTING_KEY);
+    public Binding bookingBinding(DirectExchange bookingExchange) {
+        return BindingBuilder.bind(bookingQueue()).to(bookingExchange).with(ROUTING_KEY);
     }
 
     @Bean
