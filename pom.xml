@@ -6,6 +6,7 @@
         <module>service-auth</module>
         <module>service-tour</module>
         <module>service-booking</module>
+        <module>service-payment</module>
     </modules>
     <properties>
         <java.version>17</java.version>

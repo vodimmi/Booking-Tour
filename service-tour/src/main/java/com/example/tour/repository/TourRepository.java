@@ -19,7 +19,7 @@ public interface TourRepository extends JpaRepository<Tour, Long> {
     Page<Tour> findAllActive(Pageable pageable);
 
     // Chỉ lấy tour ACTIVE theo category
-    @Query("SELECT t FROM Tour t WHERE t.category.categoryId = :categoryId AND t.status <> 'INACTIVE'")
+    @Query("SELECT t FROM Tour t WHERE t.category.id = :categoryId AND t.status <> 'INACTIVE'")
     Page<Tour> findActiveByCategory(@Param("categoryId") Long categoryId, Pageable pageable);
 
     // Chỉ lấy tour ACTIVE theo từ khóa

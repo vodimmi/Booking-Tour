@@ -13,7 +13,7 @@
 # ENTRYPOINT ["java","-jar","/app/app.jar"]
 # Build stage
 FROM maven:3.9.4-eclipse-temurin-17 AS builder
-FROM maven:3.9.4-eclipse-temurin-17 AS builder
+#FROM maven:3.9.4-eclipse-temurin-17 AS builder
 WORKDIR /workspace
 # Copy parent pom first
 COPY pom.xml .
@@ -21,6 +21,7 @@ COPY pom.xml .
 COPY service-auth ./service-auth
 COPY service-tour ./service-tour
 COPY service-booking ./service-booking
+COPY service-payment ./service-payment
 # Build the application
 RUN mvn -B -DskipTests clean package -pl service-tour -am
 

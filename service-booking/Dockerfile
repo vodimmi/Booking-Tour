@@ -7,6 +7,7 @@ COPY pom.xml .
 COPY service-auth ./service-auth
 COPY service-tour ./service-tour
 COPY service-booking ./service-booking
+COPY service-payment ./service-payment
 # Build the application
 RUN mvn -B -DskipTests clean package -pl service-booking -am
 

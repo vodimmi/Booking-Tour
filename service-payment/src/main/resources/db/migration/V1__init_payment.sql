@@ -1,0 +1,12 @@
+CREATE TABLE payments (
+  id BIGINT AUTO_INCREMENT PRIMARY KEY,
+  booking_id BIGINT NOT NULL,
+  paypal_order_id VARCHAR(255),
+  amount DECIMAL(12,2) NOT NULL,
+  currency VARCHAR(10) NOT NULL,
+  status VARCHAR(50) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE INDEX idx_payments_booking_id ON payments(booking_id);
