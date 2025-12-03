@@ -15,13 +15,48 @@
           "request": {
             "method": "GET",
             "url": {
-              "raw": "{{booking-url}}/api/bookings",
+              "raw": "http://localhost:8082/api/bookings",
+              "protocol": "http",
               "host": [
-                "{{booking-url}}"
+                "localhost"
               ],
+              "port": "8082",
               "path": [
                 "api",
                 "bookings"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List bookings with pagination",
+          "id": "bf789caf-f3f7-4608-94cd-1ded84d567cb",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/bookings?page=1&limit=10&search=",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "bookings"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                },
+                {
+                  "key": "search",
+                  "value": ""
+                }
               ]
             }
           }
@@ -69,7 +104,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"tourId\": 1,\n    \"userId\": 1,\n    \"numberOfPeople\": 2,\n    \"totalPrice\": 1000.00,\n    \"bookingDate\": \"2025-11-24T09:00:00\",\n    \"specialRequirements\": \"Test new\"\n}",
+              "raw": "{\n  \"tourId\": 11,\n  \"userId\": 3,\n  \"numberOfPeople\": 3,\n  \"totalPrice\": 4500000,\n  \"bookingDate\": \"2025-12-01T20:40:01.000\",\n  \"tourStartDate\": \"2025-12-12\",\n  \"tourEndDate\": \"2025-12-24\",\n  \"specialRequirements\": \"Window seat preferred\"\n}\n",
               "options": {
                 "raw": {
                   "language": "json"
@@ -77,10 +112,12 @@
               }
             },
             "url": {
-              "raw": "{{booking-url}}/api/bookings",
+              "raw": "http://localhost:8082/api/bookings",
+              "protocol": "http",
               "host": [
-                "{{booking-url}}"
+                "localhost"
               ],
+              "port": "8082",
               "path": [
                 "api",
                 "bookings"
@@ -92,7 +129,7 @@
           "name": "Confirm booking",
           "id": "c3430039-2cbc-4293-b644-14c811440596",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "raw": "{{booking-url}}/api/bookings/7/confirm",
               "host": [
@@ -111,7 +148,7 @@
           "name": "Reject booking",
           "id": "ec116be1-02c4-4fb5-8b19-95b63a97ec6e",
           "request": {
-            "method": "POST",
+            "method": "PUT",
             "url": {
               "raw": "{{booking-url}}/api/bookings/7/reject?reason=No longer needed",
               "host": [
@@ -128,6 +165,46 @@
                   "key": "reason",
                   "value": "No longer needed"
                 }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all bookings of each user",
+          "id": "bfea0f97-373b-43c2-aa8f-36daadb29c37",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:8082/api/bookings/user/2",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8082",
+              "path": [
+                "api",
+                "bookings",
+                "user",
+                "2"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Cancel booking",
+          "id": "ca31a436-5fd5-48b1-9b91-9e233c0939a6",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{booking-url}}/api/bookings/7/cancel",
+              "host": [
+                "{{booking-url}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "7",
+                "cancel"
               ]
             }
           }
@@ -274,17 +351,200 @@
         }
       ],
       "id": "c780a3e2-b898-4d4c-a8a6-cc671388766c"
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "JWKS",
+          "id": "175c763b-8cf3-411b-bac8-9c4acb1acfaf",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "http://localhost:6060/jwks.json",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6060",
+              "path": [
+                "jwks.json"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "id": "2e49736c-5c9a-4110-a2d1-27c540934de8",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"Password123!\",\n  \"firstName\": \"Test\",\n  \"lastName\": \"User\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:6060/api/auth/register",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6060",
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "id": "9852a705-5f7c-4ff6-92e9-b94e59cd97e4",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "//User\n\n// {\n//   \"email\": \"user@example.com\",\n//   \"password\": \"User@123\"\n// }\n\n\n//Admin\n\n{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Admin@123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:6060/api/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6060",
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Refresh",
+          "id": "37015d31-f596-4b9e-8284-3b5facb9ce12",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:6060/api/auth/refresh",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6060",
+              "path": [
+                "api",
+                "auth",
+                "refresh"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "id": "80cc2370-4b87-4057-bb2b-7f4e42fdeeb5",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{authToken}}"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:6060/api/auth/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "6060",
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          }
+        }
+      ],
+      "id": "auth-collection",
+      "description": "Authentication endpoints for service-auth (register, login, refresh, me, jwks)"
+    },
+    {
+      "name": "",
+      "id": "2244fd46-c8ac-4f8a-b522-abd35f58606a",
+      "request": {
+        "url": {
+          "raw": ""
+        }
+      }
     }
   ],
   "variable": [
     {
-      "id": "2601f767-6c20-4322-9344-e57082af2411",
+      "id": "48706c26-5c37-4040-b89e-2c16c44d6ad1",
       "key": "booking-url",
       "value": "http://localhost:8082",
       "type": "string"
     },
     {
-      "id": "6c011cdc-8eb1-4c66-9814-a1ee68ad5c04",
+      "id": "16926983-e8b9-472b-a3a8-a9266f8f24c0",
+      "key": "auth-url",
+      "value": "http://localhost:6060",
+      "type": "string"
+    },
+    {
+      "id": "552c9024-33a5-49cd-ac9e-46d9027e2299",
+      "key": "authToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "id": "f50c0b27-1def-4ffd-b30f-c1e14ca206f2",
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "id": "6615c515-b57b-49b6-9938-d6e0b70a4263",
       "key": "booking-url",
       "value": "",
       "type": "default"

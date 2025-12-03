@@ -2,12 +2,12 @@
 -- Create tour_categories table
 -- ================================
 CREATE TABLE tour_categories (
-     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-     name VARCHAR(255) NOT NULL,
-     description TEXT,
-     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
 );
 
 -- Insert initial tour categories
@@ -21,14 +21,14 @@ INSERT INTO tour_categories (name, description, status) VALUES
 -- Create locations table
 -- ================================
 CREATE TABLE locations (
-                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                           name VARCHAR(255) NOT NULL,
-                           country VARCHAR(255) NOT NULL,
-                           province VARCHAR(255) NOT NULL,
-                           description TEXT,
-                           status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
-                           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                           updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    country VARCHAR(255) NOT NULL,
+    province VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE'
 );
 
 -- Insert initial locations

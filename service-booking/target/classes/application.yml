@@ -2,8 +2,11 @@ server:
   port: 8082
 
 spring:
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   datasource:
-    url: jdbc:mysql://localhost:3306/BT_BOOKING?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
+    url: jdbc:mysql://localhost:3307/BT_BOOKING?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -27,3 +30,4 @@ spring:
     issuer: booking-tour-booking
     access-token-ttl-minutes: 30
     refresh-token-ttl-days: 7
+

@@ -34,6 +34,12 @@ public class UserManagementService {
         return users.map(this::mapToUserListResponse);
     }
 
+    public UserListResponse getUserById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        return mapToUserListResponse(user);
+    }
+
     @Transactional
     public void assignRole(Long userId, String roleName) {
         User user = userRepository.findById(userId)

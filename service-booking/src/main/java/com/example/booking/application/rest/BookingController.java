@@ -24,13 +24,19 @@ public class BookingController {
         return ResponseEntity.created(URI.create("/api/bookings/" + bookingId)).build();
     }
 
-    @PostMapping("/{id}/confirm")
+    @PutMapping("/{id}/confirm")
     public ResponseEntity<Void> confirmBooking(@PathVariable("id") Long id) {
         commandService.handleConfirmBooking(id);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{id}/reject")
+    @PutMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancelBooking(@PathVariable("id") Long id) {
+        commandService.handleCancelledBooking(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/reject")
     public ResponseEntity<Void> rejectBooking(
             @PathVariable("id") Long id,
             @RequestParam(value = "reason", required = true) String reason) {
@@ -38,13 +44,24 @@ public class BookingController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{id:[0-9]+}")
     public ResponseEntity<BookingResponse> getBooking(@PathVariable("id") Long id) {
         return ResponseEntity.ok(queryService.getBookingById(id));
     }
 
     @GetMapping
-    public ResponseEntity<List<BookingResponse>> getAllBookings() {
-        return ResponseEntity.ok(queryService.getAllBookings());
+    public ResponseEntity<List<BookingResponse>> getAllBookings(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,
+            @RequestParam(required = false) String search) {
+        return ResponseEntity.ok(queryService.getAllBookings(page, limit));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<BookingResponse>> getBookingsByUser(
+            @PathVariable Long userId,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit) {
+        return ResponseEntity.ok(queryService.getBookingsByUser(userId, page, limit));
     }
 }

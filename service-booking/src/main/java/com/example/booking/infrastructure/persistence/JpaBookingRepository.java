@@ -2,14 +2,19 @@ package com.example.booking.infrastructure.persistence;
 
 import com.example.booking.domain.model.Booking;
 import com.example.booking.domain.repository.BookingRepository;
-import org.springframework.stereotype.Repository;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Transactional
 public class JpaBookingRepository implements BookingRepository {
+
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -29,18 +34,41 @@ public class JpaBookingRepository implements BookingRepository {
 
     @Override
     public List<Booking> findAll() {
-        return entityManager.createQuery("SELECT b FROM Booking b", Booking.class)
+        return entityManager.createQuery(
+                "SELECT b FROM Booking b ORDER BY b.id DESC", Booking.class)
                 .getResultList();
     }
 
     @Override
-    public boolean existsActiveBookingForUserAndTour(Long userId, Long tourId) {
+    public List<Booking> findAll(int page, int limit) {
+        if (page < 1)
+            page = 1;
+        if (limit <= 0)
+            limit = 10;
+
+        return entityManager.createQuery(
+                "SELECT b FROM Booking b ORDER BY b.id DESC", Booking.class)
+                .setFirstResult((page - 1) * limit)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    @Override
+    public boolean existsOverlappingBooking(Long userId, Long tourId, java.time.LocalDate startDate, java.time.LocalDate endDate) {
+        // Check if there's any active booking (PENDING or CONFIRMED) for the same user and tour
+        // where the date periods overlap
         Long count = entityManager.createQuery(
-                "SELECT COUNT(b) FROM Booking b WHERE b.userId = :userId AND b.tourId = :tourId AND b.status IN ('PENDING', 'CONFIRMED')",
+                "SELECT COUNT(b) FROM Booking b WHERE b.userId = :userId " +
+                "AND b.tourId = :tourId " +
+                "AND b.status IN ('PENDING', 'CONFIRMED') " +
+                "AND NOT (b.tourEndDate < :startDate OR b.tourStartDate > :endDate)",
                 Long.class)
                 .setParameter("userId", userId)
                 .setParameter("tourId", tourId)
+                .setParameter("startDate", startDate)
+                .setParameter("endDate", endDate)
                 .getSingleResult();
+
         return count > 0;
     }
 
@@ -51,5 +79,21 @@ public class JpaBookingRepository implements BookingRepository {
                 .setParameter("status", status)
                 .setParameter("id", bookingId)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<Booking> findByUserId(Long userId, int page, int limit) {
+        if (page < 1)
+            page = 1;
+        if (limit <= 0)
+            limit = 10;
+
+        return entityManager.createQuery(
+                "SELECT b FROM Booking b WHERE b.userId = :userId ORDER BY b.id DESC",
+                Booking.class)
+                .setParameter("userId", userId)
+                .setFirstResult((page - 1) * limit)
+                .setMaxResults(limit)
+                .getResultList();
     }
 }
