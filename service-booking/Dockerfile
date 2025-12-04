@@ -12,7 +12,7 @@ COPY service-payment ./service-payment
 RUN mvn -B -DskipTests clean package -pl service-booking -am
 
 # Run stage
-FROM eclipse-temurin:21-jre-alpine
+FROM eclipse-temurin:21-jre
 WORKDIR /app
 COPY --from=builder /workspace/service-booking/target/service-booking-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8082

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Booking Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .content {
+            padding: 30px;
+        }
+        .greeting {
+            font-size: 18px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .tour-info {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .tour-info h2 {
+            margin-top: 0;
+            color: #667eea;
+            font-size: 22px;
+        }
+        .info-row {
+            display: flex;
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .info-row:last-child {
+            border-bottom: none;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #495057;
+            min-width: 120px;
+        }
+        .info-value {
+            color: #212529;
+        }
+        .timeline {
+            margin: 20px 0;
+        }
+        .timeline h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+        .day-section {
+            margin-bottom: 25px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .day-title {
+            font-weight: bold;
+            color: #764ba2;
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #667eea;
+        }
+        .activity {
+            padding: 10px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 5px;
+            border-left: 3px solid #667eea;
+        }
+        .activity-title {
+            font-weight: bold;
+            color: #495057;
+            margin-bottom: 5px;
+        }
+        .activity-time {
+            color: #6c757d;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .activity-description {
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .calendar-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .calendar-button:hover {
+            transform: scale(1.05);
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+        }
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎉 Tour Booking Confirmed!</h1>
+        </div>
+        
+        <div class="content">
+            <p class="greeting">Dear <span th:text="${fullName}">Customer</span>,</p>
+            
+            <p>Thank you for booking with us! Your payment has been successfully processed, and your tour booking is now <strong>confirmed</strong>.</p>
+            
+            <div class="tour-info">
+                <h2>📋 Tour Details</h2>
+                <div class="info-row">
+                    <span class="info-label">Tour Name:</span>
+                    <span class="info-value" th:text="${tourName}">Tour Name</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Location:</span>
+                    <span class="info-value" th:text="${location}">Location</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Start Date:</span>
+                    <span class="info-value" th:text="${#temporals.format(startDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">End Date:</span>
+                    <span class="info-value" th:text="${#temporals.format(endDate, 'dd/MM/yyyy')}">03/01/2024</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Duration:</span>
+                    <span class="info-value" th:text="${duration} + ' days'">3 days</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Participants:</span>
+                    <span class="info-value" th:text="${numberOfPeople}">2</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Total Price:</span>
+                    <span class="info-value" th:text="${#numbers.formatDecimal(totalPrice, 0, 'COMMA', 0, 'POINT')} + ' VND'">5,000,000 VND</span>
+                </div>
+            </div>
+
+            <div class="timeline">
+                <h3>📅 Tour Timeline</h3>
+                <div th:each="day : ${timeline}" class="day-section">
+                    <div class="day-title" th:text="'Day ' + ${day.dayNumber}">Day 1</div>
+                    <div th:each="activity : ${day.activities}" class="activity">
+                        <div class="activity-title" th:text="${activity.title}">Activity Title</div>
+                        <div class="activity-time" th:if="${activity.startTime != null and activity.endTime != null}">
+                            ⏰ <span th:text="${#temporals.format(activity.startTime, 'HH:mm')}">08:00</span> - 
+                            <span th:text="${#temporals.format(activity.endTime, 'HH:mm')}">10:00</span>
+                        </div>
+                        <div class="activity-description" th:text="${activity.description}">Activity description</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center;">
+                <a th:href="${calendarLink}" class="calendar-button">
+                    📆 Add to Google Calendar
+                </a>
+            </div>
+
+            <p style="margin-top: 30px; font-size: 14px; color: #6c757d;">
+                <strong>Important:</strong> Please arrive at least 30 minutes before the tour start time. 
+                Bring this confirmation email and a valid ID.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>Need help? Contact us at <a href="mailto:support@bookingtour.com">support@bookingtour.com</a></p>
+            <p>&copy; 2024 Booking Tour. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

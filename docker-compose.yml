@@ -11,9 +11,8 @@ services:
     ports:
       - "3307:3306"
     volumes:
-      - mysql-data:/var/lib/mysql                 # <- named volume for persistence
-      - ./mysql-init:/docker-entrypoint-initdb.d:ro  # contains init.sql (read-only)
-    # command: --default-authentication-plugin=mysql_native_password
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
@@ -35,11 +34,22 @@ services:
       timeout: 5s
       retries: 5
 
+  mailhog:
+    image: mailhog/mailhog
+    container_name: bt-mailhog
+    ports:
+      - "1025:1025"  # SMTP server
+      - "8025:8025"  # Web UI
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:8025"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
   service-auth:
     build:
       context: .
       dockerfile: service-auth/Dockerfile
-      network: host
     container_name: bt-service-auth
     dns:
       - 8.8.8.8
@@ -59,11 +69,11 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+
   service-tour:
     build:
       context: .
       dockerfile: service-tour/Dockerfile
-      network: host
     container_name: bt-service-tour
     restart: always
     dns:
@@ -91,11 +101,10 @@ services:
     build:
       context: .
       dockerfile: service-booking/Dockerfile
-      network: host
     container_name: bt-service-booking
-    dns:
-      - 8.8.8.8
-      - 8.8.4.4
+    restart: always
+    extra_hosts:
+      - "smtp.gmail.com:108.177.125.108"
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_BOOKING?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
@@ -103,13 +112,30 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: validate
       SPRING_FLYWAY_ENABLED: "true"
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
-      SPRING_FLYWAY_LOCATIONS: classpath:db/migration  # contains V1__init_booking.sql
+      SPRING_FLYWAY_LOCATIONS: classpath:db/migration
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
+
       SERVER_PORT: 8082
+
+      # Gmail SMTP configuration for real email sending
+      SPRING_MAIL_HOST: smtp.gmail.com
+      SPRING_MAIL_PORT: 587
+      SPRING_MAIL_USERNAME: ${MAIL_USERNAME}
+      SPRING_MAIL_PASSWORD: ${MAIL_PASSWORD}
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_REQUIRED: "true"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_CONNECTIONTIMEOUT: "5000"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_TIMEOUT: "5000"
+      SPRING_MAIL_PROPERTIES_MAIL_SMTP_WRITETIMEOUT: "5000"
+
+      AUTH_SERVICE_URL: http://service-auth:6060
+      TOUR_SERVICE_URL: http://service-tour:8081
     ports:
       - "8082:8082"
     depends_on:
@@ -124,6 +150,9 @@ services:
       dockerfile: service-payment/Dockerfile
     container_name: bt-service-payment
     restart: always
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/BT_PAYMENT?allowPublicKeyRetrieval=true&useSSL=false
       SPRING_DATASOURCE_USERNAME: root
@@ -133,10 +162,12 @@ services:
       SPRING_FLYWAY_BASELINE_ON_MIGRATE: "true"
       SPRING_FLYWAY_LOCATIONS: classpath:db/migration
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
+
       SPRING_RABBITMQ_HOST: rabbitmq
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: guest
       SPRING_RABBITMQ_PASSWORD: guest
+
       SERVER_PORT: 8090
     ports:
       - "8090:8090"
@@ -146,12 +177,6 @@ services:
       rabbitmq:
         condition: service_healthy
 
-
 volumes:
-  # Named volume that stores MySQL data on the host. This keeps DB files
-  # across container restarts and even when the container is removed.
-  # Note: if you run `docker compose down -v` it WILL remove named volumes.
-  # To fully protect the volume from accidental removal, create it externally
-  # (docker volume create mysql-data) and change to `external: true` here.
   mysql-data:
     driver: local
