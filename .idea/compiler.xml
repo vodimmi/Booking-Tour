@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="service-auth" />
+        <module name="service-payment" />
       </profile>
       <profile name="Annotation profile for service-tour" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -35,6 +36,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="service-auth" options="-parameters" />
       <module name="service-booking" options="-Amapstruct.defaultComponentModel=spring -parameters -parameters" />
+      <module name="service-payment" options="-parameters" />
       <module name="service-tour" options="-parameters" />
     </option>
   </component>

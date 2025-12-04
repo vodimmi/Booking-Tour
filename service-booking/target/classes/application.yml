@@ -2,9 +2,6 @@ server:
   port: 8082
 
 spring:
-  autoconfigure:
-    exclude:
-      - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
   datasource:
     url: jdbc:mysql://localhost:3307/BT_BOOKING?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=utf8
     username: root

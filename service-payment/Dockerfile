@@ -9,7 +9,7 @@ COPY service-payment ./service-payment
 RUN mvn -B -DskipTests clean package -pl service-payment -am
 
 # Run stage
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=builder /workspace/service-payment/target/service-payment-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8090
