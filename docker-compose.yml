@@ -91,6 +91,12 @@ services:
       SPRING_FLYWAY_LOCATIONS: classpath:db/migration  # contains V1__init_booking.sql
       SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.MySQL8Dialect
       SERVER_PORT: 8082
+
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+
+      AUTH_SERVICE_URL: http://service-auth:6060
+      TOUR_SERVICE_URL: http://service-tour:8081
     ports:
       - "8082:8082"
     depends_on:

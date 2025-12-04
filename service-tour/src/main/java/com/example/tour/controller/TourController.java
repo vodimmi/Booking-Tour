@@ -2,8 +2,10 @@ package com.example.tour.controller;
 
 import com.example.tour.dto.TourCreateDto;
 import com.example.tour.dto.TourResponseDto;
+import com.example.tour.dto.TourTimelineDto;
 import com.example.tour.dto.TourUpdateDto;
 import com.example.tour.service.TourService;
+import com.example.tour.service.TourTimelineService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,30 +18,31 @@ import java.util.List;
 public class TourController {
 
     private final TourService tourService;
+    private final TourTimelineService timelineService;
 
-    public TourController(TourService tourService) {
+    public TourController(TourService tourService, TourTimelineService timelineService) {
         this.tourService = tourService;
+        this.timelineService = timelineService;
     }
 
     @GetMapping
     public ResponseEntity<List<TourResponseDto>> getAll(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit
-    ) {
+            @RequestParam(defaultValue = "10") int limit) {
         List<TourResponseDto> tours = tourService.findAll(page, limit);
-        if (tours.isEmpty()) return ResponseEntity.noContent().build();
+        if (tours.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(tours);
     }
-
 
     @GetMapping("/search")
     public ResponseEntity<List<TourResponseDto>> searchTours(
             @RequestParam("q") String keyword,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit
-    ) {
+            @RequestParam(defaultValue = "10") int limit) {
         List<TourResponseDto> results = tourService.searchTours(keyword, page, limit);
-        if (results.isEmpty()) return ResponseEntity.noContent().build();
+        if (results.isEmpty())
+            return ResponseEntity.noContent().build();
         return ResponseEntity.ok(results);
     }
 
@@ -69,13 +72,21 @@ public class TourController {
     public ResponseEntity<List<TourResponseDto>> getByCategory(
             @PathVariable Long categoryId,
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "10") int limit
-    ) {
+            @RequestParam(defaultValue = "10") int limit) {
         List<TourResponseDto> tours = tourService.findByCategory(categoryId, page, limit);
         if (tours.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(tours);
+    }
+
+    @GetMapping("/{id}/timeline")
+    public ResponseEntity<List<TourTimelineDto>> getTourTimeline(@PathVariable Long id) {
+        List<TourTimelineDto> timeline = timelineService.getTimelineByTourId(id);
+        if (timeline.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(timeline);
     }
 
 }
